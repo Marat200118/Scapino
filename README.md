@@ -10,6 +10,7 @@ The integration 4 project in collaboration with Rotterdam University of Applied 
 
 ## Links to other repositories
 Figma project link: https://www.figma.com/team_invite/redeem/nGwHYTaNVkRE9XJfl6RH5w
+
 GitHub scrum project link: https://github.com/users/Marat200118/projects/5/views/1
 
 
