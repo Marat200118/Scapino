@@ -11,11 +11,10 @@ Everything about this project you can find in this repository **Wiki** page: htt
 ## Getting started
 
 ### The brief
-Find a solution on how Scapino can inform young adults about, let them enjoy or connect with (their) modern
-dance?
+At the start of the Integration project we were introduced to the client and their needs. We work with Scapino - modern ballet studio, based in Rotterdam. The main problem, that we are going to solve for them is that Scapino wants to attract younger target audience to their shows and community.
 
 ### "How might we?" question
-How might we inform art students from 18 to 25 years old who are already interested in visual arts, but feel a lack of connection to modern ballet so that they recognise the modern ballet as a compelling form of art?
+How might we **inform** art students from **18 to 25 years old** who are **already interested in visual arts**, but feel a **lack of connection** to modern ballet so that they **recognise the modern ballet as a compelling form of art?**
 
 
 ## Links to other repositories
