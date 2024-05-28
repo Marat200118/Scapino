@@ -1,6 +1,9 @@
 # Scapino
-The integration 4 project in collaboration with Rotterdam University of Applied Sciences and dance studio Scapino
+The integration 4 project in collaboration with Rotterdam University of Applied Sciences and dance studio Scapino.
 
+## Check out our WIKI page!
+Everything about this project you can find in this repository **Wiki** page: https://github.com/Marat200118/Scapino/wiki
+ 
 ## Table of contents
 - [Getting started](#getting-started)
 - [Links to other repositories](#links-to-other-repositories)
