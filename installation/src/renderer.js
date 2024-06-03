@@ -21,6 +21,7 @@ let writer;
 const $r = document.getElementById("r");
 const $g = document.getElementById("g");
 const $b = document.getElementById("b");
+const $nfc = document.querySelector("nfc-id");
 
 const init = async () => {
     displaySupportedState();
