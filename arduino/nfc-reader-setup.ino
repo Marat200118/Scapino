@@ -1,0 +1,45 @@
+#include <SPI.h>
+#include <MFRC522.h>
+
+#define RST_PIN 9  // Reset pin
+#define CS_PIN 10  // Chip Select (SDA) pin
+
+// Create an instance of the MFRC522 class
+MFRC522 mfrc522(CS_PIN, RST_PIN);
+
+void setup() {
+  Serial.begin(9600);
+  Serial.println("Initializing...");
+
+  // Initialize SPI bus
+  SPI.begin();
+
+  // Initialize the RFID reader
+  mfrc522.PCD_Init();
+
+  Serial.println("RFID reader initialized.");
+}
+
+void loop() {
+  Serial.println("Checking for cards...");
+
+  // Check if a new card is present
+  if (mfrc522.PICC_IsNewCardPresent()) {
+    Serial.println("New card detected.");
+    if (mfrc522.PICC_ReadCardSerial()) {
+      Serial.print("Card UID:");
+      for (byte i = 0; i < mfrc522.uid.size; i++) {
+        Serial.print(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " ");
+        Serial.print(mfrc522.uid.uidByte[i], HEX);
+      }
+      Serial.println();
+      mfrc522.PICC_HaltA();  // Halt further communication with the card
+    } else {
+      Serial.println("Failed to read card.");
+    }
+  } else {
+    Serial.println("No card present.");
+  }
+
+  delay(1000);  // Add a delay to avoid flooding the serial monitor
+}
