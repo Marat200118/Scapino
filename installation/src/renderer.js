@@ -124,6 +124,7 @@ const connect = async (port) => {
                 }
                 // Do something with |value|...
                 try {
+                    console.log(value);
                     const json = JSON.parse(value);
                     console.log(json)
                     $nfc.textContent = `${json.message} ${json.data} `;
