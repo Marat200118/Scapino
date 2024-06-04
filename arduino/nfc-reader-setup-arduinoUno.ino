@@ -1,20 +1,17 @@
 #include <SPI.h>
 #include <MFRC522.h>
 
-#define RST_PIN 9  // Reset pin
-#define CS_PIN 10  // Chip Select (SDA) pin
+#define RST_PIN 9 
+#define CS_PIN 10  
 
-// Create an instance of the MFRC522 class
 MFRC522 mfrc522(CS_PIN, RST_PIN);
 
 void setup() {
   Serial.begin(9600);
   Serial.println("Initializing...");
 
-  // Initialize SPI bus
   SPI.begin();
 
-  // Initialize the RFID reader
   mfrc522.PCD_Init();
 
   Serial.println("RFID reader initialized.");
