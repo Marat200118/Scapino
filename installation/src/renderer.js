@@ -94,6 +94,51 @@ const connect = async (port) => {
     const writableStreamClosed = textEncoder.readable.pipeTo(port.writable);
     writer = textEncoder.writable.getWriter();
 
+    while (port.readable) {
+        const decoder = new TextDecoderStream();
+
+        const lineBreakTransformer = new TransformStream({
+            transform(chunk, controller) {
+                const text = chunk;
+                const lines = text.split("\n");
+                lines[0] = (this.remainder || "") + lines[0];
+                this.remainder = lines.pop();
+                lines.forEach((line) => controller.enqueue(line));
+            },
+            flush(controller) {
+                if (this.remainder) {
+                    controller.enqueue(this.remainder);
+                }
+            },
+        });
+
+        const readableStreamClosed = port.readable.pipeTo(decoder.writable);
+        const inputStream = decoder.readable.pipeThrough(lineBreakTransformer);
+        const reader = inputStream.getReader();
+        try {
+            while (true) {
+                const { value, done } = await reader.read();
+                if (done) {
+                    // |reader| has been canceled.
+                    break;
+                }
+                // Do something with |value|...
+                try {
+                    const json = JSON.parse(value);
+                    console.log(json)
+                    $nfc.textContent = `${json.message} ${json.data} `;
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        } catch (error) {
+            // Handle |error|...
+            console.warn("Warning: An error occurred while reading from the stream", error);
+        } finally {
+            reader.releaseLock();
+        }
+    }
+
     port.addEventListener("disconnect", () => {
         console.log("Disconnected");
         isConnected = false;

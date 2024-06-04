@@ -20,7 +20,7 @@ const createWindow = () => {
         console.log('select-serial-port FIRED WITH', portList);
 
         event.preventDefault()
-        const arduino = portList.find(port => port.displayName && port.displayName.toLowerCase().includes('arduino'))
+        const arduino = portList.find(port => port.displayName && port.displayName.toLowerCase().includes('usbmodem'))
         if (arduino) {
             callback(arduino.portId)
         } else {
