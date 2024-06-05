@@ -4,15 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>RFID Reader Status</title>
-  <style>
-    .circle {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      display: inline-block;
-      margin: 10px;
-    }
-  </style>
+  <link rel="stylesheet" href="/src/styles.css" />
 </head>
 
 <body>
@@ -29,9 +21,30 @@
         <div>
           <div id="circle1" class="circle" style="background-color: red;"></div>
           <div id="circle2" class="circle" style="background-color: red;"></div>
+          <div id="circle3" class="circle" style="background-color: red;"></div>
         </div>
       </div>
     </div>
+    <section class="introduction">
+      <p>Introduction</p>
+    </section>
+    <section class="between-section">
+      <p>The tag is taken out</p>
+    </section>
+    <section class="interview">
+      <p>Interview</p>
+      <video id="video" width="320" height="240" preload playsinline autoplay>
+        <source src="./src/assets/Interview-Xingxing-end.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </section>
+    <section class="dance">
+      <p>Dance</p>
+      <video id="video" width="320" height="240" preload playsinline autoplay>
+        <source src="./src/assets/Dance-video-end.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </section>
   </div>
   <script type="module" src="/src/renderer.js"></script>
 </body>

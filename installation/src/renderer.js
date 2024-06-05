@@ -20,6 +20,7 @@ let connectedArduinoPorts = [];
 let writer;
 const $circle1 = document.getElementById("circle1");
 const $circle2 = document.getElementById("circle2");
+const $circle3 = document.getElementById("circle3");
 
 const init = async () => {
   displaySupportedState();
@@ -122,11 +123,12 @@ const connect = async (port) => {
       const { value, done } = await reader.read();
       if (done) break;
       if (value) {
-        console.log("Received:", value);
+        // console.log("Received:", value);
         try {
           const json = JSON.parse(value);
-          console.log(json);
+          // console.log(json);
           updateCircle(json);
+          updateSectionDisplay();
         } catch (error) {
           console.log("Received non-JSON message:", value);
         }
@@ -144,28 +146,57 @@ const connect = async (port) => {
   }
 };
 
+const updateSectionDisplay = () => {
+  const circle1Green = $circle1.style.backgroundColor === "green";
+  const circle2Green = $circle2.style.backgroundColor === "green";
+  const circle3Green = $circle3.style.backgroundColor === "green";
+
+  document.querySelector(".introduction").style.display = "none";
+  document.querySelector(".between-section").style.display = "none";
+  document.querySelector(".interview").style.display = "none";
+  document.querySelector(".dance").style.display = "none";
+
+  document.querySelectorAll("video").forEach((video) => {
+    video.pause();
+  });
+
+  if (circle1Green && circle2Green) {
+    document.querySelector(".introduction").style.display = "block";
+  } else if (circle1Green && !circle2Green && !circle3Green) {
+    document.querySelector(".between-section").style.display = "block";
+  } else if (!circle1Green && circle2Green && !circle3Green) {
+    document.querySelector(".between-section").style.display = "block";
+  } else if (circle1Green && circle3Green) {
+    document.querySelector(".dance").style.display = "block";
+    const danceVideo = document.querySelector(".dance video");
+    danceVideo.play();
+  } else if (circle2Green && circle3Green) {
+    document.querySelector(".interview").style.display = "block";
+    const interviewVideo = document.querySelector(".interview video");
+    interviewVideo.play();
+  } else {
+    document.querySelector(".introduction").style.display = "block";
+  }
+};
+
 let cardPresentCount1 = 0;
 let cardPresentCount2 = 0;
-let lastUpdateTime = 0;
+let cardPresentCount3 = 0;
 let lastUpdatedTime1 = 0;
 let lastUpdatedTime2 = 0;
+let lastUpdatedTime3 = 0;
 const timeThreshold = 1000;
 
 const updateCircle = (json) => {
   const now = Date.now();
-  // if (now - lastUpdateTime < timeThreshold) {
-  //   return;
-  // }
 
   if (json.UID !== "No card present") {
     if (json.reader === "Reader 1") {
       if (cardPresentCount1 === 0) {
         lastUpdatedTime1 = now;
-
         cardPresentCount1++;
       } else if (now - lastUpdatedTime1 < timeThreshold) {
         cardPresentCount1++;
-        console.log(cardPresentCount1);
         lastUpdatedTime1 = now;
       }
     } else if (json.reader === "Reader 2") {
@@ -174,41 +205,31 @@ const updateCircle = (json) => {
         cardPresentCount2++;
       } else if (now - lastUpdatedTime2 < timeThreshold) {
         cardPresentCount2++;
-        console.log(cardPresentCount2);
         lastUpdatedTime2 = now;
+      }
+    } else if (json.reader === "Reader 3") {
+      if (cardPresentCount3 === 0) {
+        lastUpdatedTime3 = now;
+        cardPresentCount3++;
+      } else if (now - lastUpdatedTime3 < timeThreshold) {
+        cardPresentCount3++;
+        lastUpdatedTime3 = now;
       }
     }
   } else {
-    if (now - lastUpdatedTime2 > timeThreshold) {
-      cardPresentCount2 = 0;
-      // console.log("here2");
-    }
     if (now - lastUpdatedTime1 > timeThreshold) {
-      console.log("here1");
       cardPresentCount1 = 0;
     }
-    $circle2.style.backgroundColor = cardPresentCount2 > 5 ? "green" : "red";
-    $circle1.style.backgroundColor = cardPresentCount1 > 5 ? "green" : "red";
-
-    // cardPresentCount1=0;
-    // cardPresentCount2=0;
-    // console.log(cardPresentCount1);
-    // $circle2.style.backgroundColor = "red";
+    if (now - lastUpdatedTime2 > timeThreshold) {
+      cardPresentCount2 = 0;
+    }
+    if (now - lastUpdatedTime3 > timeThreshold) {
+      cardPresentCount3 = 0;
+    }
+    $circle1.style.backgroundColor = cardPresentCount1 >= 3 ? "green" : "red";
+    $circle2.style.backgroundColor = cardPresentCount2 >= 3 ? "green" : "red";
+    $circle3.style.backgroundColor = cardPresentCount3 >= 3 ? "green" : "red";
   }
-
-  //  if (json.UID !== "No card present") {
-  //    cardPresentCount1++;
-  // $circle1.style.backgroundColor = "red";
-  //  } else if (json.reader === "Reader 2") {
-  //    cardPresentCount2++;
-  // $circle2.style.backgroundColor = "red";
-  //    }
-  //  }
-
-  // else {
-  //   $circle1.style.backgroundColor = "green";
-  //   $circle2.style.backgroundColor = "green";
-  // }
 };
 
 const displaySupportedState = () => {
