@@ -1,0 +1,90 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #1C1815;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+  font-family: 'Rocked';
+  src: url('../static/fonts/Rocked-Regular-ALT.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-family: 'Rocked', serif;
+  font-size: 2rem;
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+}
+
+#app {
+  width: 100%;
+  text-align: center;
+}
+
+.webgl {
+  width: 80% !important;
+  height: 60% !important;
+}
+
+p {
+  text-align: left;
+}
+
+article {
+  /* width: 80%; */
+  padding: 1rem 3rem;
+}
+
+.info {
+  padding: 1rem 3rem;
+}
+
+.tickets__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.objects__list {
+  display: flex;
+  width: 80%;
+  overflow-x: scroll;
+  gap: 1rem;
+}
+
+.objects__img {
+  width: 8rem;
+}
