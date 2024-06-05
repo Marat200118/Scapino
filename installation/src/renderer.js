@@ -1,4 +1,4 @@
-import './index.css';
+import "./index.css";
 
 // app state
 const hasWebSerial = "serial" in navigator;
@@ -12,173 +12,244 @@ const $connected = document.getElementById("connected");
 const $connectButton = document.getElementById("connectButton");
 
 const arduinoInfo = {
-    usbProductId: 32823,
-    usbVendorId: 9025
+  usbProductId: 32823,
+  usbVendorId: 9025,
 };
 let connectedArduinoPorts = [];
 
 let writer;
-const $r = document.getElementById("r");
-const $g = document.getElementById("g");
-const $b = document.getElementById("b");
-const $nfc = document.querySelector("nfc-id");
+const $circle1 = document.getElementById("circle1");
+const $circle2 = document.getElementById("circle2");
+const $circle3 = document.getElementById("circle3");
 
 const init = async () => {
-    displaySupportedState();
-    if (!hasWebSerial) return;
-    displayConnectionState();
-    navigator.serial.addEventListener('connect', (e) => {
-        const port = e.target;
-        const info = port.getInfo();
-        console.log('connect', port, info);
-        if (isArduinoPort(port)) {
-            connectedArduinoPorts.push(port);
-            if (!isConnected) {
-                connect(port);
-            }
-        }
-    });
+  displaySupportedState();
+  if (!hasWebSerial) return;
+  displayConnectionState();
 
-    navigator.serial.addEventListener('disconnect', (e) => {
-        const port = e.target;
-        const info = port.getInfo();
-        console.log('disconnect', port, info);
-        connectedArduinoPorts = connectedArduinoPorts.filter(p => p !== port);
-    });
-
-    const ports = await navigator.serial.getPorts();
-    connectedArduinoPorts = ports.filter(isArduinoPort);
-
-    console.log('Ports');
-    ports.forEach(port => {
-        const info = port.getInfo();
-        console.log(info);
-    });
-    console.log('Connected Arduino ports');
-    connectedArduinoPorts.forEach(port => {
-        const info = port.getInfo();
-        console.log(info);
-    });
-
-    if (connectedArduinoPorts.length > 0) {
-        connect(connectedArduinoPorts[0]);
+  navigator.serial.addEventListener("connect", (e) => {
+    const port = e.target;
+    const info = port.getInfo();
+    console.log("connect", port, info);
+    if (isArduinoPort(port)) {
+      connectedArduinoPorts.push(port);
+      if (!isConnected) {
+        connect(port);
+      }
     }
+  });
 
-    $connectButton.addEventListener("click", handleClickConnect);
+  navigator.serial.addEventListener("disconnect", (e) => {
+    const port = e.target;
+    const info = port.getInfo();
+    console.log("disconnect", port, info);
+    connectedArduinoPorts = connectedArduinoPorts.filter((p) => p !== port);
+    if (connectedArduinoPorts.length === 0) {
+      isConnected = false;
+      displayConnectionState();
+    }
+  });
 
-    $r.addEventListener("input", handleInput);
-    $g.addEventListener("input", handleInput);
-    $b.addEventListener("input", handleInput);
+  const ports = await navigator.serial.getPorts();
+  connectedArduinoPorts = ports.filter(isArduinoPort);
+
+  console.log("Ports");
+  ports.forEach((port) => {
+    const info = port.getInfo();
+    console.log(info);
+  });
+  console.log("Connected Arduino ports");
+  connectedArduinoPorts.forEach((port) => {
+    const info = port.getInfo();
+    console.log(info);
+  });
+
+  if (connectedArduinoPorts.length > 0) {
+    connect(connectedArduinoPorts[0]);
+  }
+
+  $connectButton.addEventListener("click", handleClickConnect);
 };
 
 const isArduinoPort = (port) => {
-    const info = port.getInfo();
-    return info.usbProductId === arduinoInfo.usbProductId && info.usbVendorId === arduinoInfo.usbVendorId;
+  const info = port.getInfo();
+  return (
+    info.usbProductId === arduinoInfo.usbProductId &&
+    info.usbVendorId === arduinoInfo.usbVendorId
+  );
 };
 
 const handleClickConnect = async () => {
-    const port = await navigator.serial.requestPort();
-    console.log(port);
-    const info = port.getInfo();
-    console.log(info);
-    await connect(port);
+  const port = await navigator.serial.requestPort();
+  console.log(port);
+  const info = port.getInfo();
+  console.log(info);
+  await connect(port);
 };
 
 const connect = async (port) => {
+  try {
+    await port.open({ baudRate: 9600 });
     isConnected = true;
     displayConnectionState();
-
-    await port.open({ baudRate: 9600 });
+    console.log("Port opened");
 
     const textEncoder = new TextEncoderStream();
     const writableStreamClosed = textEncoder.readable.pipeTo(port.writable);
     writer = textEncoder.writable.getWriter();
 
-    while (port.readable) {
-        const decoder = new TextDecoderStream();
+    const textDecoder = new TextDecoderStream();
+    const readableStreamClosed = port.readable.pipeTo(textDecoder.writable);
 
-        const lineBreakTransformer = new TransformStream({
-            transform(chunk, controller) {
-                const text = chunk;
-                const lines = text.split("\n");
-                lines[0] = (this.remainder || "") + lines[0];
-                this.remainder = lines.pop();
-                lines.forEach((line) => controller.enqueue(line));
-            },
-            flush(controller) {
-                if (this.remainder) {
-                    controller.enqueue(this.remainder);
-                }
-            },
-        });
+    const inputStream = textDecoder.readable.pipeThrough(
+      new TransformStream({
+        transform(chunk, controller) {
+          const text = chunk;
+          const lines = text.split("\n");
+          lines[0] = (this.remainder || "") + lines[0];
+          this.remainder = lines.pop();
+          lines.forEach((line) => controller.enqueue(line));
+        },
+        flush(controller) {
+          if (this.remainder) {
+            controller.enqueue(this.remainder);
+          }
+        },
+      })
+    );
+    const reader = inputStream.getReader();
 
-        const readableStreamClosed = port.readable.pipeTo(decoder.writable);
-        const inputStream = decoder.readable.pipeThrough(lineBreakTransformer);
-        const reader = inputStream.getReader();
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      if (value) {
+        // console.log("Received:", value);
         try {
-            while (true) {
-                const { value, done } = await reader.read();
-                if (done) {
-                    // |reader| has been canceled.
-                    break;
-                }
-                // Do something with |value|...
-                try {
-                    const json = JSON.parse(value);
-                    console.log(json)
-                    $nfc.textContent = `${json.message} ${json.data} `;
-                } catch (error) {
-                    console.log(error);
-                }
-            }
+          const json = JSON.parse(value);
+          // console.log(json);
+          updateCircle(json);
+          updateSectionDisplay();
         } catch (error) {
-            // Handle |error|...
-            console.warn("Warning: An error occurred while reading from the stream", error);
-        } finally {
-            reader.releaseLock();
+          console.log("Received non-JSON message:", value);
         }
+      }
     }
-
-    port.addEventListener("disconnect", () => {
-        console.log("Disconnected");
-        isConnected = false;
-        displayConnectionState();
-    });
-}
-
-const handleInput = async () => {
-    const r = parseInt($r.value);
-    const g = parseInt($g.value);
-    const b = parseInt($b.value);
-    if (!isConnected) {
-        return;
+  } catch (error) {
+    if (error.message.includes("Failed to open serial port")) {
+      console.error("Failed to open port:", error);
+      alert(
+        "Failed to open serial port. Make sure no other applications are using the port."
+      );
+    } else {
+      console.error("Error connecting to port:", error);
     }
-    await writer.write(JSON.stringify({
-        r,
-        g,
-        b,
-    }));
-    await writer.write("\n");
+  }
+};
+
+const updateSectionDisplay = () => {
+  const circle1Green = $circle1.style.backgroundColor === "green";
+  const circle2Green = $circle2.style.backgroundColor === "green";
+  const circle3Green = $circle3.style.backgroundColor === "green";
+
+  document.querySelector(".introduction").style.display = "none";
+  document.querySelector(".between-section").style.display = "none";
+  document.querySelector(".interview").style.display = "none";
+  document.querySelector(".dance").style.display = "none";
+
+  document.querySelectorAll("video").forEach((video) => {
+    video.pause();
+  });
+
+  if (circle1Green && circle2Green) {
+    document.querySelector(".introduction").style.display = "block";
+  } else if (circle1Green && !circle2Green && !circle3Green) {
+    document.querySelector(".between-section").style.display = "block";
+  } else if (!circle1Green && circle2Green && !circle3Green) {
+    document.querySelector(".between-section").style.display = "block";
+  } else if (circle1Green && circle3Green) {
+    document.querySelector(".dance").style.display = "block";
+    const danceVideo = document.querySelector(".dance video");
+    danceVideo.play();
+  } else if (circle2Green && circle3Green) {
+    document.querySelector(".interview").style.display = "block";
+    const interviewVideo = document.querySelector(".interview video");
+    interviewVideo.play();
+  } else {
+    document.querySelector(".introduction").style.display = "block";
+  }
+};
+
+let cardPresentCount1 = 0;
+let cardPresentCount2 = 0;
+let cardPresentCount3 = 0;
+let lastUpdatedTime1 = 0;
+let lastUpdatedTime2 = 0;
+let lastUpdatedTime3 = 0;
+const timeThreshold = 1000;
+
+const updateCircle = (json) => {
+  const now = Date.now();
+
+  if (json.UID !== "No card present") {
+    if (json.reader === "Reader 1") {
+      if (cardPresentCount1 === 0) {
+        lastUpdatedTime1 = now;
+        cardPresentCount1++;
+      } else if (now - lastUpdatedTime1 < timeThreshold) {
+        cardPresentCount1++;
+        lastUpdatedTime1 = now;
+      }
+    } else if (json.reader === "Reader 2") {
+      if (cardPresentCount2 === 0) {
+        lastUpdatedTime2 = now;
+        cardPresentCount2++;
+      } else if (now - lastUpdatedTime2 < timeThreshold) {
+        cardPresentCount2++;
+        lastUpdatedTime2 = now;
+      }
+    } else if (json.reader === "Reader 3") {
+      if (cardPresentCount3 === 0) {
+        lastUpdatedTime3 = now;
+        cardPresentCount3++;
+      } else if (now - lastUpdatedTime3 < timeThreshold) {
+        cardPresentCount3++;
+        lastUpdatedTime3 = now;
+      }
+    }
+  } else {
+    if (now - lastUpdatedTime1 > timeThreshold) {
+      cardPresentCount1 = 0;
+    }
+    if (now - lastUpdatedTime2 > timeThreshold) {
+      cardPresentCount2 = 0;
+    }
+    if (now - lastUpdatedTime3 > timeThreshold) {
+      cardPresentCount3 = 0;
+    }
+    $circle1.style.backgroundColor = cardPresentCount1 >= 3 ? "green" : "red";
+    $circle2.style.backgroundColor = cardPresentCount2 >= 3 ? "green" : "red";
+    $circle3.style.backgroundColor = cardPresentCount3 >= 3 ? "green" : "red";
+  }
 };
 
 const displaySupportedState = () => {
-    if (hasWebSerial) {
-        $notSupported.style.display = "none";
-        $supported.style.display = "block";
-    } else {
-        $notSupported.style.display = "block";
-        $supported.style.display = "none";
-    }
-}
+  if (hasWebSerial) {
+    $notSupported.style.display = "none";
+    $supported.style.display = "block";
+  } else {
+    $notSupported.style.display = "block";
+    $supported.style.display = "none";
+  }
+};
 
 const displayConnectionState = () => {
-    if (isConnected) {
-        $notConnected.style.display = "none";
-        $connected.style.display = "block";
-    } else {
-        $notConnected.style.display = "block";
-        $connected.style.display = "none";
-    }
-}
+  if (isConnected) {
+    $notConnected.style.display = "none";
+    $connected.style.display = "block";
+  } else {
+    $notConnected.style.display = "block";
+    $connected.style.display = "none";
+  }
+};
 
 init();
