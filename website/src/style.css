@@ -1,10 +1,7 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import url('./reset.css');
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+:root {
+  color: #fff;
   background-color: #1C1815;
 
   font-synthesis: none;
@@ -16,18 +13,24 @@
 @font-face {
   font-family: 'Rocked';
   src: url('../static/fonts/Rocked-Regular-ALT.woff2') format('woff2');
-  font-weight: 400;
+
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'ABCWhyteVariable';
+  src: url('../static/fonts/ABCWhyteVariable-Trial.woff2') format('woff2');
   font-style: normal;
 }
 
 a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+  color: white;
+  text-decoration: none;
 }
 
-a:hover {
-  color: #535bf2;
+ul {
+  list-style: none;
+  padding: 0;
 }
 
 body {
@@ -47,9 +50,13 @@ h1 {
   place-items: center;
 }
 
+.bold {
+  font-weight: 600;
+}
+
 #app {
   width: 100%;
-  text-align: center;
+
 }
 
 .webgl {
@@ -59,15 +66,43 @@ h1 {
 
 p {
   text-align: left;
+  font-family: 'ABCWhyteVariable', sans-serif;
+
 }
 
 article {
   /* width: 80%; */
   padding: 1rem 3rem;
+  font-family: 'ABCWhyteVariable', sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+.info--header {
+  display: block;
+  font-family: 'ABCWhyteVariable',
+    sans-serif;
+  padding-left: 3rem;
+
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .info {
   padding: 1rem 3rem;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.tickets__header {
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.tickets__list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .tickets__item {
@@ -75,14 +110,29 @@ article {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid white;
+}
+
+.tickets__item a {
+  padding: 1rem;
+  border: 1px solid white;
+  background-color: black;
 }
 
 .objects__list {
   display: flex;
-  width: 80%;
+  justify-content: center;
+  align-items: center;
   overflow-x: scroll;
   gap: 1rem;
+}
+
+.objects__item {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
 }
 
 .objects__img {

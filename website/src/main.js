@@ -31,12 +31,17 @@ const gltfLoader = new GLTFLoader()
 gltfLoader.setDRACOLoader(dracoLoader)
 
 let mixer = null
+let model
 
 const renderModel = (modelName) => {
   gltfLoader.load(
     `/models/${modelName}.glb`,
     (gltf) => {
-      scene.add(gltf.scene)
+      model = gltf.scene
+      model.position.x = -0.25
+      model.position.y = -0.5
+      model.position.z = -1.5
+      scene.add(model)
     }
   )
 }
@@ -58,20 +63,20 @@ const donutMaterial = new THREE.MeshMatcapMaterial({
   matcap: matcapTexture
 })
 
-for (let i = 0; i < 100; i++) {
+// for (let i = 0; i < 100; i++) {
 
-  const donut = new THREE.Mesh(donutGeometry, donutMaterial)
-  donut.position.x = (Math.random() - 0.5) * 10
-  donut.position.y = (Math.random() - 0.5) * 10
-  donut.position.z = (Math.random() - 0.5) * 10
+//   const donut = new THREE.Mesh(donutGeometry, donutMaterial)
+//   donut.position.x = (Math.random() - 0.5) * 10
+//   donut.position.y = (Math.random() - 0.5) * 10
+//   donut.position.z = (Math.random() - 0.5) * 10
 
-  donut.rotation.x = Math.random() * Math.PI
-  donut.rotation.y = Math.random() * Math.PI
+//   donut.rotation.x = Math.random() * Math.PI
+//   donut.rotation.y = Math.random() * Math.PI
 
-  const scale = Math.random()
-  donut.scale.set(scale, scale, scale)
-  scene.add(donut)
-}
+//   const scale = Math.random()
+//   donut.scale.set(scale, scale, scale)
+//   scene.add(donut)
+// }
 
 /**
  * Sizes
@@ -115,8 +120,8 @@ scene.add(pointLight)
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.x = 1
-camera.position.y = 1
+camera.position.x = 0
+camera.position.y = 0
 camera.position.z = 2
 scene.add(camera)
 
@@ -140,6 +145,11 @@ const clock = new THREE.Clock()
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime()
+
+  if (model) {
+    model.rotation.z = elapsedTime * 0.1
+    model.rotation.y = -elapsedTime * 0.15
+  }
 
   // Update controls
   // controls.update()
