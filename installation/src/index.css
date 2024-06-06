@@ -1,0 +1,12 @@
+.circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 10px;
+}
+
+section video {
+  width: 80vw;
+  height: 60vh;
+}
