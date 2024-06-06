@@ -21,6 +21,8 @@ let writer;
 const $circle1 = document.getElementById("circle1");
 const $circle2 = document.getElementById("circle2");
 const $circle3 = document.getElementById("circle3");
+const $circle4 = document.getElementById("circle4");
+const $circle5 = document.getElementById("circle5");
 
 const init = async () => {
   displaySupportedState();
@@ -182,9 +184,13 @@ const updateSectionDisplay = () => {
 let cardPresentCount1 = 0;
 let cardPresentCount2 = 0;
 let cardPresentCount3 = 0;
+let cardPresentCount4 = 0;
+let cardPresentCount5 = 0;
 let lastUpdatedTime1 = 0;
 let lastUpdatedTime2 = 0;
 let lastUpdatedTime3 = 0;
+let lastUpdatedTime4 = 0;
+let lastUpdatedTime5 = 0;
 const timeThreshold = 1000;
 
 const updateCircle = (json) => {
@@ -215,6 +221,22 @@ const updateCircle = (json) => {
         cardPresentCount3++;
         lastUpdatedTime3 = now;
       }
+    } else if (json.reader === "Reader 4") {
+      if (cardPresentCount4 === 0) {
+        lastUpdatedTime4 = now;
+        cardPresentCount4++;
+      } else if (now - lastUpdatedTime4 < timeThreshold) {
+        cardPresentCount4++;
+        lastUpdatedTime4 = now;
+      }
+    } else if (json.reader === "Reader 5") {
+      if (cardPresentCount5 === 0) {
+        lastUpdatedTime5 = now;
+        cardPresentCount5++;
+      } else if (now - lastUpdatedTime5 < timeThreshold) {
+        cardPresentCount5++;
+        lastUpdatedTime5 = now;
+      }
     }
   } else {
     if (now - lastUpdatedTime1 > timeThreshold) {
@@ -226,9 +248,17 @@ const updateCircle = (json) => {
     if (now - lastUpdatedTime3 > timeThreshold) {
       cardPresentCount3 = 0;
     }
+    if (now - lastUpdatedTime4 > timeThreshold) {
+      cardPresentCount4 = 0;
+    }
+    if (now - lastUpdatedTime5 > timeThreshold) {
+      cardPresentCount5 = 0;
+    }
     $circle1.style.backgroundColor = cardPresentCount1 >= 3 ? "green" : "red";
     $circle2.style.backgroundColor = cardPresentCount2 >= 3 ? "green" : "red";
     $circle3.style.backgroundColor = cardPresentCount3 >= 3 ? "green" : "red";
+    $circle4.style.backgroundColor = cardPresentCount4 >= 3 ? "green" : "red";
+    $circle5.style.backgroundColor = cardPresentCount5 >= 3 ? "green" : "red";
   }
 };
 
