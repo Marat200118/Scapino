@@ -35,7 +35,7 @@ let model
 
 const renderModel = (modelName) => {
   gltfLoader.load(
-    `/models/${modelName}.glb`,
+    `../models/${modelName}.glb`,
     (gltf) => {
       model = gltf.scene
       model.position.x = -0.25
@@ -53,7 +53,7 @@ renderModel('chihuahua');
  * Textures
  */
 const textureLoader = new THREE.TextureLoader()
-const matcapTexture = textureLoader.load('/textures/15.png')
+const matcapTexture = textureLoader.load('../textures/15.png')
 matcapTexture.colorSpace = THREE.SRGBColorSpace
 
 
