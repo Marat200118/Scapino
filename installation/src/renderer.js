@@ -130,8 +130,12 @@ const connect = async (port) => {
         try {
           const json = JSON.parse(value);
           // console.log(json);
-          updateCircle(json);
-          updateSectionDisplay();
+          setTimeout(updateCircle(json), 1000);
+          if (json.reader === "Reader 5") {
+            console.log("Received:", json.UID);
+
+          }
+
         } catch (error) {
           // console.log("Received non-JSON message:", value);
         }
@@ -151,7 +155,7 @@ const connect = async (port) => {
 
 
 
-const timeThreshold = 1000;
+const timeThreshold = 1550;
 
 
 
@@ -187,10 +191,10 @@ const items = [
     lastUpdatedTime: 0,
     isHighlighted: false,
     isPresent: true,
-    section: "reproductive-rights",
+    section: "societal-norms",
   },
   {
-    UID: " 04 40 f1 91 78 00 00",
+    UID: " 04 32 ef 91 78 00 00",
     presentCounts: 0,
     lastUpdatedTime: 0,
     isHighlighted: false,
@@ -199,8 +203,7 @@ const items = [
 
   },
   {
-    //RANDOM
-    UID: " 04 60 f1 91 78 00 00",
+    UID: " 04 50 ef 91 78 00 00",
     presentCounts: 0,
     lastUpdatedTime: 0,
     isHighlighted: false,
@@ -208,8 +211,7 @@ const items = [
     section: "life",
   },
   {
-    //RANDOM
-    UID: " 04 77 f1 91 78 00 00",
+    UID: " 04 e8 ea 91 78 00 00",
     presentCounts: 0,
     lastUpdatedTime: 0,
     isHighlighted: false,
@@ -238,28 +240,40 @@ let currentState = states[0];
 
 const updateCircle = (json) => {
   const now = Date.now();
-
-  console.log(json.UID);
+  if (json.UID !== "No card present") {
+    // console.log(json.UID);
+  }
   items.forEach((item) => {
     if (item.UID === json.UID) {
-      if (item.presentCounts === 0) {
-        item.lastUpdatedTime = now;
-        item.presentCounts++;
-      } else if (now - item.lastUpdatedTime < timeThreshold) {
-        item.presentCounts++;
-        item.lastUpdatedTime = now;
-
-      }
+      // if (item.presentCounts === 0) {
+      //   console.log(item.UID)
+      //   item.lastUpdatedTime = now;
+      //   item.presentCounts++;
+      // } else if (now - item.lastUpdatedTime < timeThreshold) {
+      //   item.presentCounts++;
+      //   item.lastUpdatedTime = now;
+      // }
+      item.isPresent = true;
+      item.presentCounts = 0;
+      item.isHighlighted = (json.reader === "Reader 5") ? true : false;
     } else if (json.UID === "No card present") {
       const reader = readers.find((r) => r.name === json.reader);
       const lastPresentCard = items.find((i) => i.UID === reader.lastUIDPresent);
-      if (lastPresentCard && (now - lastPresentCard.lastUpdatedTime > timeThreshold)) {
-        lastPresentCard.presentCounts = 0;
 
+      if (lastPresentCard && (now - lastPresentCard.lastUpdatedTime > timeThreshold)) {
+        if (item.presentCounts === 0) {
+          console.log(item.UID)
+          item.lastUpdatedTime = now;
+          item.presentCounts++;
+        } else if (now - item.lastUpdatedTime < timeThreshold) {
+          item.presentCounts++;
+          item.lastUpdatedTime = now;
+        }
+        console.log(lastPresentCard)
       }
     }
-    item.isHighlighted = json.reader === "Reader 5" ? item.presentCounts > 3 : false;
-    item.isPresent = item.presentCounts > 3;
+    item.isPresent = item.presentCounts > 3 ? false : true;
+    item.isHighlighted = (json.reader === "Reader 5") ? item.isPresent : false;
 
     if (item.isPresent) {
       const reader = readers.find((r) => r.name === json.reader);
@@ -269,24 +283,37 @@ const updateCircle = (json) => {
     }
   });
 
+  // items[0].isPresent = true;
+  // items[1].isPresent = true;
+  items[2].isPresent = true;
+  // items[3].isPresent = true;
 
-  const areAllPresent = items.every(i => i.isPresent);
-  const someAbsent = items.some(i => !i.isPresent);
-  const highlightIsActive = items.some(i => i.isHighlighted);
+
+  //lets try to update the section only for 1 reader
+  if (json.reader === "Reader 5") {
+
+    const areAllPresent = items.every(i => i.isPresent);
+    // const someAbsent = items.some(i => !i.isPresent);
+    // console.log(areAllPresent, someAbsent)
+    const highlightIsActive = items.some(i => i.isHighlighted);
+    console.log(areAllPresent, highlightIsActive)
 
 
-  if (areAllPresent && !highlightIsActive) {
-    //if all are present on the initial readers, we start
-    currentState = states[0];
-  } else if (someAbsent && !highlightIsActive) {
-    //if at least one is absent, but not on the highlight yet, we're in between
-    currentState = states[1];
-  } else if (highlightIsActive) {
-    //if the highlight is active, we're in the content
-    currentState = states[2];
+    if (areAllPresent && !highlightIsActive) {
+      //if all are present on the initial readers, we start
+      currentState = states[0];
+    }
+    if (!areAllPresent && !highlightIsActive) {
+      //if at least one is absent, but not on the highlight yet, we're in between
+      currentState = states[1];
+    } if (highlightIsActive) {
+      //if the highlight is active, we're in the content
+      currentState = states[2];
+    }
+
+    updateSectionDisplay(currentState.section, items);
   }
 
-  updateSectionDisplay(currentState, items);
 
   $circle1.style.backgroundColor = items[0].isPresent ? "green" : "red";
   $circle2.style.backgroundColor = items[1].isPresent ? "green" : "red";
