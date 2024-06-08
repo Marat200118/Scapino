@@ -149,24 +149,13 @@ const connect = async (port) => {
 };
 
 
-let cardPresentCount1 = 0;
-let cardPresentCount2 = 0;
-let cardPresentCount3 = 0;
-let cardPresentCount4 = 0;
-let cardPresentCount5 = 0;
-let lastUpdatedTime1 = 0;
-let lastUpdatedTime2 = 0;
-let lastUpdatedTime3 = 0;
-let lastUpdatedTime4 = 0;
-let lastUpdatedTime5 = 0;
+
 const timeThreshold = 1000;
 
 
-//store all the readers:
-const readersNames = ["Reader 1", "Reader 2", "Reader 3", "Reader 4", "Reader 5"];
-//store the count of card present for each reader:
-// const cardPresentCounts = [0, 0, 0, 0, 0];
 
+
+//store all the readers:
 const readers = [
   {
     name: "Reader 1",
@@ -197,6 +186,7 @@ const items = [
     lastUpdatedTime: 0,
     isHighlighted: false,
     isPresent: true,
+    section: "reproductive-rights",
   },
   {
     UID: " 04 40 f1 91 78 00 00",
@@ -204,6 +194,7 @@ const items = [
     lastUpdatedTime: 0,
     isHighlighted: false,
     isPresent: true,
+    section: "misogyny",
 
   },
   {
@@ -213,6 +204,7 @@ const items = [
     lastUpdatedTime: 0,
     isHighlighted: false,
     isPresent: true,
+    section: "life",
   },
   {
     //RANDOM
@@ -221,6 +213,7 @@ const items = [
     lastUpdatedTime: 0,
     isHighlighted: false,
     isPresent: true,
+    section: "societal-norms",
   },
 ]
 
@@ -237,7 +230,7 @@ const states = [
   },
 ];
 
-let highlightIsActive = false;
+// let highlightIsActive = false;
 
 //start with the first state:
 let currentState = states[0];
@@ -245,7 +238,6 @@ let currentState = states[0];
 const updateCircle = (json) => {
   const now = Date.now();
 
-  // if (json.UID !== "No card present") {
   console.log(json.UID);
   items.forEach((item) => {
     if (item.UID === json.UID) {
@@ -260,7 +252,6 @@ const updateCircle = (json) => {
     } else if (json.UID === "No card present") {
       const reader = readers.find((r) => r.name === json.reader);
       const lastPresentCard = items.find((i) => i.UID === reader.lastUIDPresent);
-      console.log(lastPresentCard);
       if (lastPresentCard && (now - lastPresentCard.lastUpdatedTime > timeThreshold)) {
         lastPresentCard.presentCounts = 0;
 
@@ -275,140 +266,41 @@ const updateCircle = (json) => {
         reader.lastUIDPresent = item.UID;
       }
     }
-    // console.log(item);
   });
 
-  // console.log(items[0]);
+
+  const areAllPresent = items.every(i => i.isPresent);
+  const someAbsent = items.some(i => !i.isPresent);
+  const highlightIsActive = items.some(i => i.isHighlighted);
+
+
+  if (areAllPresent && !highlightIsActive) {
+    //if all are present on the initial readers, we start
+    currentState = states[0];
+  } else if (someAbsent && !highlightIsActive) {
+    //if at least one is absent, but not on the highlight yet, we're in between
+    currentState = states[1];
+  } else if (highlightIsActive) {
+    //if the highlight is active, we're in the content
+    currentState = states[2];
+  }
 
   $circle1.style.backgroundColor = items[0].isPresent ? "green" : "red";
   $circle2.style.backgroundColor = items[1].isPresent ? "green" : "red";
   $circle3.style.backgroundColor = items[2].isPresent ? "green" : "red";
   $circle4.style.backgroundColor = items[3].isPresent ? "green" : "red";
   $circle5.style.backgroundColor = items[0].isHighlighted ? "green" : "red";
-  // } else {
-  //   const reader = readers.find((r) => r.name === json.reader);
-  //   if (reader) {
-  //     const lastPresentCard = items.find((item) => item.UID === reader.lastUIDPresent);
-  //     if (now - lastPresentCard.lastUpdatedTime > timeThreshold) {
-  //       lastPresentCard.presentCounts = 0;
-  //     }
-  //   }
-  // }
 
-
-
-
-
-
-
-
-
-  //check if the card is present:
-  // if (json.UID !== "No card present") {
-  //   //loop over all the readers:
-  //   for (let i = 0; i < readersNames.length; i++) {
-  //     if (json.reader === readersNames[i]) {
-  //       //which item is present?
-  //       // loop over all the items:
-  //       for (let j = 0; j < items.length; j++) {
-  //         //check if the item is the same as the one in the json:
-  //         if (json.UID === items[j].UID) {
-  //           //check if the card is present for the first time:
-  //           if (items[j].presentCounts === 0) {
-  //             items[j].lastUpdatedTime = now;
-  //             items[j].presentCounts++;
-  //           }
-  //           //if it's not first time, we check time threshold:
-  //           else if (now - items[j].lastUpdatedTime < timeThreshold) {
-  //             items[j].presentCounts++;
-  //             items[j].lastUpdatedTime = now;
-  //           }
-  //         }
-  //         //are we in highlight?
-  //         if (i = 4) {
-  //           items[j].isHighlightedighlighted = (items[j].presentCounts > 3);
-  //         } else {
-  //           items[j].isPresent = (items[j].presentCounts > 3);
-  //         }
-  //       }
-  //     }
-  //   }
-
-  // } else {
-  //loopover all the 
-  //}
-
-  // if (json.UID !== "No card present") {
-  //   if (json.reader === "Reader 1") {
-  //     if (cardPresentCount1 === 0) {
-  //       lastUpdatedTime1 = now;
-  //       cardPresentCount1++;
-  //     } else if (now - lastUpdatedTime1 < timeThreshold) {
-  //       cardPresentCount1++;
-  //       lastUpdatedTime1 = now;
-  //     }
-  //   } else if (json.reader === "Reader 2") {
-  //     if (cardPresentCount2 === 0) {
-  //       lastUpdatedTime2 = now;
-  //       cardPresentCount2++;
-  //     } else if (now - lastUpdatedTime2 < timeThreshold) {
-  //       cardPresentCount2++;
-  //       lastUpdatedTime2 = now;
-  //     }
-  //   } else if (json.reader === "Reader 3") {
-  //     if (cardPresentCount3 === 0) {
-  //       lastUpdatedTime3 = now;
-  //       cardPresentCount3++;
-  //     } else if (now - lastUpdatedTime3 < timeThreshold) {
-  //       cardPresentCount3++;
-  //       lastUpdatedTime3 = now;
-  //     }
-  //   } else if (json.reader === "Reader 4") {
-  //     if (cardPresentCount4 === 0) {
-  //       lastUpdatedTime4 = now;
-  //       cardPresentCount4++;
-  //     } else if (now - lastUpdatedTime4 < timeThreshold) {
-  //       cardPresentCount4++;
-  //       lastUpdatedTime4 = now;
-  //     }
-  //   } else if (json.reader === "Reader 5") {
-  //     if (cardPresentCount5 === 0) {
-  //       lastUpdatedTime5 = now;
-  //       cardPresentCount5++;
-  //     } else if (now - lastUpdatedTime5 < timeThreshold) {
-  //       cardPresentCount5++;
-  //       lastUpdatedTime5 = now;
-  //     }
-  //   }
-  // } else {
-  // if (now - lastUpdatedTime1 > timeThreshold) {
-  //   cardPresentCount1 = 0;
-  // }
-  // if (now - lastUpdatedTime2 > timeThreshold) {
-  //   cardPresentCount2 = 0;
-  // }
-  // if (now - lastUpdatedTime3 > timeThreshold) {
-  //   cardPresentCount3 = 0;
-  // }
-  // if (now - lastUpdatedTime4 > timeThreshold) {
-  //   cardPresentCount4 = 0;
-  // }
-  // if (now - lastUpdatedTime5 > timeThreshold) {
-  //   cardPresentCount5 = 0;
-  // }
-
-  //}
 };
 
 const updateSectionDisplay = () => {
-  const circle1Green = $circle1.style.backgroundColor === "green";
-  const circle2Green = $circle2.style.backgroundColor === "green";
-  const circle3Green = $circle3.style.backgroundColor === "green";
 
   document.querySelector(".introduction").style.display = "none";
   document.querySelector(".between-section").style.display = "none";
-  document.querySelector(".interview").style.display = "none";
-  document.querySelector(".dance").style.display = "none";
+  document.querySelector(".misogyny").style.display = "none";
+  document.querySelector(".life").style.display = "none";
+  document.querySelector(".norms").style.display = "none";
+  document.querySelector(".reproductive-rights").style.display = "none";
 
   document.querySelectorAll("video").forEach((video) => {
     video.pause();
