@@ -1,4 +1,5 @@
 import "./index.css";
+import { updateSectionDisplay } from "./update-sections";
 
 // app state
 const hasWebSerial = "serial" in navigator;
@@ -285,44 +286,14 @@ const updateCircle = (json) => {
     currentState = states[2];
   }
 
+  updateSectionDisplay(currentState, items);
+
   $circle1.style.backgroundColor = items[0].isPresent ? "green" : "red";
   $circle2.style.backgroundColor = items[1].isPresent ? "green" : "red";
   $circle3.style.backgroundColor = items[2].isPresent ? "green" : "red";
   $circle4.style.backgroundColor = items[3].isPresent ? "green" : "red";
   $circle5.style.backgroundColor = items[0].isHighlighted ? "green" : "red";
 
-};
-
-const updateSectionDisplay = () => {
-
-  document.querySelector(".introduction").style.display = "none";
-  document.querySelector(".between-section").style.display = "none";
-  document.querySelector(".misogyny").style.display = "none";
-  document.querySelector(".life").style.display = "none";
-  document.querySelector(".norms").style.display = "none";
-  document.querySelector(".reproductive-rights").style.display = "none";
-
-  document.querySelectorAll("video").forEach((video) => {
-    video.pause();
-  });
-
-  if (circle1Green && circle2Green) {
-    document.querySelector(".introduction").style.display = "block";
-  } else if (circle1Green && !circle2Green && !circle3Green) {
-    document.querySelector(".between-section").style.display = "block";
-  } else if (!circle1Green && circle2Green && !circle3Green) {
-    document.querySelector(".between-section").style.display = "block";
-  } else if (circle1Green && circle3Green) {
-    document.querySelector(".dance").style.display = "block";
-    const danceVideo = document.querySelector(".dance video");
-    danceVideo.play();
-  } else if (circle2Green && circle3Green) {
-    document.querySelector(".interview").style.display = "block";
-    const interviewVideo = document.querySelector(".interview video");
-    interviewVideo.play();
-  } else {
-    document.querySelector(".introduction").style.display = "block";
-  }
 };
 
 
