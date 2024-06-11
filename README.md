@@ -7,6 +7,14 @@ Everything about this project you can find in this repository **Wiki** page: htt
 ## Table of contents
 - [Getting started](#getting-started)
 - [Links to other repositories](#links-to-other-repositories)
+- [Code Readme](#code-readme)
+
+## Links to other repositories
+Figma project link: https://www.figma.com/team_invite/redeem/nGwHYTaNVkRE9XJfl6RH5w
+
+GitHub scrum project link: https://github.com/users/Marat200118/projects/5/views/1
+
+Case study presentation: //link here
 
 ## Getting started
 
@@ -17,9 +25,13 @@ At the start of the Integration project we were introduced to the client and the
 How might we **inform** art students from **18 to 25 years old** who are **already interested in visual arts**, but feel a **lack of connection** to modern ballet so that they **recognise the modern ballet as a compelling form of art?**
 
 
-## Links to other repositories
-Figma project link: https://www.figma.com/team_invite/redeem/nGwHYTaNVkRE9XJfl6RH5w
+## Code Readme
 
-GitHub scrum project link: https://github.com/users/Marat200118/projects/5/views/1
+### Arduino folder
+In this folder you are able to see different iterations of our arduino code, as well as final sketch that sends the data to our installation electron project.
 
+### Installation folder
 
+### Video-experiment folder
+
+### Website folder
