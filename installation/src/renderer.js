@@ -132,10 +132,25 @@ const connect = async (port) => {
           const json = JSON.parse(value);
           // console.log(json);
           // setTimeout(updateCircle(json), 1000);
-          if ((json.reader === "Reader 5") && (json.UID !== "No card present")) {
-            console.log("Received:", json.UID);
-            updateHighlight(json.UID);
+          if (json.reader === "Reader 5") {
+            if (json.UID !== "No card present") {
+              console.log("Received:", json.UID);
+              updateHighlight(json.UID);
+            } else {
+              // console.log("No card present");
+              updateSectionDisplay("start");
+            }
           }
+          // if (json.reader === "Reader 1") {
+          //   if ((json.UID !== "No card present") && (json.UID !== "Card previously present")) {
+          //     readers[2].lastUIDPresent = json.UID;
+          //     console.log(json.UID);
+          //   }
+          // else if (json.UID === "Card previously present") {
+          //   console.log(`You just picked up ${readers[2].lastUIDPresent}`);
+          //   updateSectionDisplay("in-between");
+          // }
+          //}
         } catch (error) {
           // console.log("Received non-JSON message:", value);
         }
@@ -240,28 +255,19 @@ const states = [
 
 //start with the first state:
 let currentState = states[0];
-
-const updateCircle = (json) => {
-  // item.UID === json.UID
-
-
-  updateSectionDisplay(currentState.section, items);
-
-
-
-  // $circle1.style.backgroundColor = items[0].isPresent ? "green" : "red";
-  // $circle2.style.backgroundColor = items[1].isPresent ? "green" : "red";
-  // $circle3.style.backgroundColor = items[2].isPresent ? "green" : "red";
-  // $circle4.style.backgroundColor = items[3].isPresent ? "green" : "red";
-  // $circle5.style.backgroundColor = items[0].isHighlighted ? "green" : "red";
+const checkOnce = () => {
+  //check if it's 1-4 readers:
+  if (json.reader !== "Reader 5") {
+    if (json.UID !== "No card present") {
+      // json.UID
+    }
+  }
 };
 
 const updateHighlight = (uid) => {
   const currentItem = items.find((item) => item.UID === uid);
   updateSectionDisplay(currentItem.section);
 };
-
-
 
 const displaySupportedState = () => {
   if (hasWebSerial) {
