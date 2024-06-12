@@ -19,14 +19,15 @@ const arduinoInfo = {
 let connectedArduinoPorts = [];
 
 let writer;
-const $circle1 = document.getElementById("circle1");
-const $circle2 = document.getElementById("circle2");
-const $circle3 = document.getElementById("circle3");
-const $circle4 = document.getElementById("circle4");
-const $circle5 = document.getElementById("circle5");
+// const $circle1 = document.getElementById("circle1");
+// const $circle2 = document.getElementById("circle2");
+// const $circle3 = document.getElementById("circle3");
+// const $circle4 = document.getElementById("circle4");
+// const $circle5 = document.getElementById("circle5");
 
 const init = async () => {
   displaySupportedState();
+  updateSectionDisplay(currentState.section, items);
   if (!hasWebSerial) return;
   displayConnectionState();
 
@@ -130,12 +131,11 @@ const connect = async (port) => {
         try {
           const json = JSON.parse(value);
           // console.log(json);
-          setTimeout(updateCircle(json), 1000);
-          if (json.reader === "Reader 5") {
+          // setTimeout(updateCircle(json), 1000);
+          if ((json.reader === "Reader 5") && (json.UID !== "No card present")) {
             console.log("Received:", json.UID);
-
+            updateHighlight(json.UID);
           }
-
         } catch (error) {
           // console.log("Received non-JSON message:", value);
         }
@@ -186,7 +186,8 @@ const readers = [
 
 const items = [
   {
-    UID: " 04 78 f1 91 78 00 00",
+    // UID: " 04 78 f1 91 78 00 00",
+    UID: " 23 bd 8a 18",
     presentCounts: 0,
     lastUpdatedTime: 0,
     isHighlighted: false,
@@ -194,16 +195,17 @@ const items = [
     section: "societal-norms",
   },
   {
-    UID: " 04 32 ef 91 78 00 00",
+    // UID: " 04 32 ef 91 78 00 00",
+    UID: " 53 e1 71 ee",
     presentCounts: 0,
     lastUpdatedTime: 0,
     isHighlighted: false,
     isPresent: true,
     section: "misogyny",
-
   },
   {
-    UID: " 04 50 ef 91 78 00 00",
+    // UID: " 04 50 ef 91 78 00 00",
+    UID: " f3 c4 64 ee",
     presentCounts: 0,
     lastUpdatedTime: 0,
     isHighlighted: false,
@@ -211,12 +213,13 @@ const items = [
     section: "life",
   },
   {
-    UID: " 04 e8 ea 91 78 00 00",
+    // UID: " 04 e8 ea 91 78 00 00",
+    UID: " 83 22 d9 12",
     presentCounts: 0,
     lastUpdatedTime: 0,
     isHighlighted: false,
     isPresent: true,
-    section: "societal-norms",
+    section: "reproductive-rights",
   },
 ]
 
@@ -239,89 +242,25 @@ const states = [
 let currentState = states[0];
 
 const updateCircle = (json) => {
-  const now = Date.now();
-  if (json.UID !== "No card present") {
-    // console.log(json.UID);
-  }
-  items.forEach((item) => {
-    if (item.UID === json.UID) {
-      // if (item.presentCounts === 0) {
-      //   console.log(item.UID)
-      //   item.lastUpdatedTime = now;
-      //   item.presentCounts++;
-      // } else if (now - item.lastUpdatedTime < timeThreshold) {
-      //   item.presentCounts++;
-      //   item.lastUpdatedTime = now;
-      // }
-      item.isPresent = true;
-      item.presentCounts = 0;
-      item.isHighlighted = (json.reader === "Reader 5") ? true : false;
-    } else if (json.UID === "No card present") {
-      const reader = readers.find((r) => r.name === json.reader);
-      const lastPresentCard = items.find((i) => i.UID === reader.lastUIDPresent);
-
-      if (lastPresentCard && (now - lastPresentCard.lastUpdatedTime > timeThreshold)) {
-        if (item.presentCounts === 0) {
-          console.log(item.UID)
-          item.lastUpdatedTime = now;
-          item.presentCounts++;
-        } else if (now - item.lastUpdatedTime < timeThreshold) {
-          item.presentCounts++;
-          item.lastUpdatedTime = now;
-        }
-        console.log(lastPresentCard)
-      }
-    }
-    item.isPresent = item.presentCounts > 3 ? false : true;
-    item.isHighlighted = (json.reader === "Reader 5") ? item.isPresent : false;
-
-    if (item.isPresent) {
-      const reader = readers.find((r) => r.name === json.reader);
-      if (reader) {
-        reader.lastUIDPresent = item.UID;
-      }
-    }
-  });
-
-  // items[0].isPresent = true;
-  // items[1].isPresent = true;
-  items[2].isPresent = true;
-  // items[3].isPresent = true;
+  // item.UID === json.UID
 
 
-  //lets try to update the section only for 1 reader
-  if (json.reader === "Reader 5") {
-
-    const areAllPresent = items.every(i => i.isPresent);
-    // const someAbsent = items.some(i => !i.isPresent);
-    // console.log(areAllPresent, someAbsent)
-    const highlightIsActive = items.some(i => i.isHighlighted);
-    console.log(areAllPresent, highlightIsActive)
+  updateSectionDisplay(currentState.section, items);
 
 
-    if (areAllPresent && !highlightIsActive) {
-      //if all are present on the initial readers, we start
-      currentState = states[0];
-    }
-    if (!areAllPresent && !highlightIsActive) {
-      //if at least one is absent, but not on the highlight yet, we're in between
-      currentState = states[1];
-    } if (highlightIsActive) {
-      //if the highlight is active, we're in the content
-      currentState = states[2];
-    }
 
-    updateSectionDisplay(currentState.section, items);
-  }
-
-
-  $circle1.style.backgroundColor = items[0].isPresent ? "green" : "red";
-  $circle2.style.backgroundColor = items[1].isPresent ? "green" : "red";
-  $circle3.style.backgroundColor = items[2].isPresent ? "green" : "red";
-  $circle4.style.backgroundColor = items[3].isPresent ? "green" : "red";
-  $circle5.style.backgroundColor = items[0].isHighlighted ? "green" : "red";
-
+  // $circle1.style.backgroundColor = items[0].isPresent ? "green" : "red";
+  // $circle2.style.backgroundColor = items[1].isPresent ? "green" : "red";
+  // $circle3.style.backgroundColor = items[2].isPresent ? "green" : "red";
+  // $circle4.style.backgroundColor = items[3].isPresent ? "green" : "red";
+  // $circle5.style.backgroundColor = items[0].isHighlighted ? "green" : "red";
 };
+
+const updateHighlight = (uid) => {
+  const currentItem = items.find((item) => item.UID === uid);
+  updateSectionDisplay(currentItem.section);
+};
+
 
 
 const displaySupportedState = () => {
