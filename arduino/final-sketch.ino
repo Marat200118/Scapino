@@ -73,27 +73,27 @@ void loop() {
 
   if (currentMillis - previousMillis1 >= interval) {
     previousMillis1 = currentMillis;
-    checkReader(mfrc522_1, "Reader 1", 0);
+    checkReader(mfrc522_1, "Reader 1", 4);
   }
   
   if (currentMillis - previousMillis2 >= interval) {
     previousMillis2 = currentMillis;
-    checkReader(mfrc522_2, "Reader 2", 1);
+    checkReader(mfrc522_2, "Reader 2", 0);
   }
 
   if (currentMillis - previousMillis3 >= interval) {
     previousMillis3 = currentMillis;
-    checkReader(mfrc522_3, "Reader 3", 2);
+    checkReader(mfrc522_3, "Reader 3", 1);
   }
 
   if (currentMillis - previousMillis4 >= interval) {
     previousMillis4 = currentMillis;
-    checkReader(mfrc522_4, "Reader 4", 3);
+    checkReader(mfrc522_4, "Reader 4", 2);
   }
 
   if (currentMillis - previousMillis5 >= interval) {
     previousMillis5 = currentMillis;
-    checkReader(mfrc522_5, "Reader 5", 4);
+    checkReader(mfrc522_5, "Reader 5", 3);
   }
 }
 
@@ -102,6 +102,9 @@ void checkReader(MFRC522 &reader, const char *readerName, int ringIndex) {
   unsigned long currentMillis = millis();
 
   bool cardDetected = reader.PICC_IsNewCardPresent() && reader.PICC_ReadCardSerial();
+
+  if (!cardDetected) {
+    cardDetected = reader.PICC_IsNewCardPresent() && reader.PICC_ReadCardSerial(); }
 
   if (cardDetected) {
     String uidStr = "";
