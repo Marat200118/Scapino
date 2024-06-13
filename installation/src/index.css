@@ -10,3 +10,225 @@ section video {
   width: 80vw;
   height: 60vh;
 }
+
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  /* margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px; */
+  min-width: 320px;
+  min-height: 99vh;
+  background-color: #0A0C0F;
+  color: #ffffff;
+  overflow: hidden;
+  /* background-image: url('../cards/background.avif'); */
+}
+
+@font-face {
+  font-family: 'Rocked';
+  src: url('./src/assets/fonts/Rocked-Regular-ALT.woff2') format('woff2');
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'ABCWhyteVariable';
+  src: url('.src/assets/fonts/ABCWhyteVariable-Trial.woff2') format('woff2');
+  font-style: normal;
+}
+
+
+h1 {
+  font-family: Rocked, sans-serif;
+  font-size: 10rem;
+  line-height: 1.1;
+}
+
+h2 {
+  font-family: Rocked, sans-serif;
+  font-size: 8rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.norms h2 {
+  font-size: 6rem;
+}
+
+p {
+  font-size: 3rem;
+  font-family: ABCWhyteVariable, sans-serif;
+}
+
+
+#app {
+  /* max-width: 1280px; */
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+
+.reproductive-rights {
+  flex-direction: column;
+  height: 80vh;
+  justify-content: space-evenly;
+}
+
+.repr-rights-logo {
+  width: 20rem;
+}
+
+.reproductive-rights .images img {
+  width: 20rem;
+  margin-bottom: 10px;
+}
+
+.reproductive-rights p {
+  font-size: 3rem;
+  font-family: ABCWhyteVariable, sans-serif;
+  opacity: 0;
+  max-width: 40ch;
+  margin: 0;
+  z-index: 1;
+}
+
+p span {
+  font-weight: 600;
+  color: #F94300;
+}
+
+.reproductive-rights .images {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 5rem;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.reproductive-rights .images img:nth-child(1) { transform: rotate(-17deg); z-index: 0; position: absolute; }
+.reproductive-rights .images img:nth-child(2) { transform: rotate(25deg); z-index: 0; position: absolute; }
+.reproductive-rights .images img:nth-child(3) { transform: rotate(-25deg); z-index: 0; position: absolute; }
+.reproductive-rights .images img:nth-child(4) { transform: rotate(6deg); z-index: 0; position: absolute; }
+.reproductive-rights .images img:nth-child(5) { transform: rotate(12deg); z-index: 1; position: absolute; }
+.reproductive-rights .images img:nth-child(6) { transform: rotate(30deg); z-index: 0; position: absolute; }
+.reproductive-rights .images img:nth-child(7) { transform: rotate(-14deg); z-index: 0; position: absolute; }
+.reproductive-rights .images img:nth-child(8) { transform: rotate(-5deg); z-index: 0; position: absolute; }
+.reproductive-rights .images img:nth-child(9) { transform: rotate(10deg); z-index: 0; position: absolute; }
+.reproductive-rights .images img:nth-child(10) { transform: rotate(5deg); z-index: 0; position: absolute; }
+
+.header {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.background-image {
+  position: absolute;
+  opacity: 0.3;
+  z-index: -2;
+}
+
+
+
+
+/* norms section */
+
+.norms-text {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.norms-text-paragraph {
+  font-size: 2.5rem;
+  max-width: 33ch;
+}
+
+.logo-right {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+
+/* intro section */
+
+.intro-bckg {
+  opacity: 0.7;
+  width: 90vw;
+}
+
+#video {
+  width: 95vw;
+  height: 95vh;
+}
+
+
+/* in between */
+
+.flex-container-inbetween {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.between-text-left, .between-text-right {
+  font-size: 4rem;
+  max-width: 15ch;
+}
+
+.or {
+  font-size: 5.625rem;
+  font-weight: bold;
+  background-color: #F94300;
+  border-radius: 50%;
+  padding: 1.5rem;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.or::before,
+.or::after {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 6rem;
+  background-color: white;
+}
+
+.or::before {
+  top: -8rem;
+}
+
+.or::after {
+  bottom: -8rem;
+}
