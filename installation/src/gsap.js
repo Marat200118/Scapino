@@ -52,12 +52,6 @@ const reproductiveRights = () => {
       duration: 2,
       delay: images.length * 0.2,
     });
-
-    // gsap.to(".background-image", {
-    //   opacity: 0,
-    //   duration: 2,
-    //   delay: images.length * 0.2,
-    // });
   });
 };
 

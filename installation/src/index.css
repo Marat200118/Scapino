@@ -196,12 +196,40 @@ p span {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  margin-top: 6rem;
 }
 
 .between-text-left, .between-text-right {
   font-size: 4rem;
   max-width: 15ch;
 }
+
+.between__title {
+  margin-top: 0;
+}
+
+.picked-object {
+  margin-bottom: .5rem;
+}
+
+.floating-image {
+  position: absolute;
+  z-index: -1;
+  opacity: 0.3;
+}
+
+.background-image-inbetween-static {
+  position: relative;
+}
+
+.background-image-inbetween-static img {
+  position: absolute;
+  z-index: -2;
+  opacity: 0.1;
+  left: 30%;
+  
+}
+
 
 .or {
   font-size: 5.625rem;
