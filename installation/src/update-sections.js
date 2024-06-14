@@ -1,6 +1,6 @@
 import { inBetween } from "./in-between";
 
-let prevSection = "start";
+let prevSection = null;
 
 const updateSectionDisplay = (currentSection) => {
   if (currentSection === prevSection) {

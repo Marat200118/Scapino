@@ -24,7 +24,7 @@ let isHighlightActive = false; // global variable to check if highlight is activ
 
 const init = async () => {
   displaySupportedState();
-  updateSectionDisplay(currentState.section, items);
+  updateSectionDisplay("start");
   if (!hasWebSerial) return;
   displayConnectionState();
 
@@ -176,7 +176,6 @@ const connect = async (port) => {
               }
               
                if (emptyReaders.length == 0) {
-                console.log(emptyReaders.length);
                  updateSectionDisplay("start");
                  emptyReaders = [];
                }
@@ -200,10 +199,9 @@ const connect = async (port) => {
               }
               
               updateSectionDisplay(`in-between-${currentItem.section}`);
-            // } else if (emptyReaders.length > 1) {
-            //   // console.log(emptyReaders.length);
-            //   updateSectionDisplay("in-between-universal");
-            // } 
+            } else if (emptyReaders.length > 1) {
+              // console.log(emptyReaders.length);
+              updateSectionDisplay("in-between-universal");
             }
           }
 
