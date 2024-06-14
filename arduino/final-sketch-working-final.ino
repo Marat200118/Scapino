@@ -3,6 +3,7 @@
 #include <ArduinoJson.h>
 #include <FastLED.h>
 
+// Reader pins
 #define RST_PIN_1 8
 #define CS_PIN_1 10 
 #define RST_PIN_2 9
@@ -20,6 +21,7 @@ MFRC522 mfrc522_3(CS_PIN_3, RST_PIN_3);
 MFRC522 mfrc522_4(CS_PIN_4, RST_PIN_4);
 MFRC522 mfrc522_5(CS_PIN_5, RST_PIN_5);
 
+// LED ring configuration
 #define DATA_PIN A1
 #define NUM_LEDS_PER_RING 12
 #define NUM_RINGS 5
@@ -131,10 +133,12 @@ void checkReader(MFRC522 &reader, const char *readerName, int ringIndex) {
       nfcDoc["reader"] = readerName;
       nfcDoc["UID"] = "No card present";
 
+      // Update LED ring based on presence state
       setRingColor(ringIndex, 20, 0, 0);
     } else {
       nfcDoc["reader"] = readerName;
-      nfcDoc["UID"] = "Card previously present";
+      // nfcDoc["UID"] = "Card previously present";
+      nfcDoc["UID"] = "No card present";
     }
   }
   serializeJson(nfcDoc, Serial);
