@@ -127,7 +127,7 @@ const connect = async (port) => {
           const json = JSON.parse(value);
           // console.log(json);
           // setTimeout(updateCircle(json), 1000);
-          if (json.reader === "Reader 5") {
+          if (json.reader === "Reader 2") {
             if (json.UID !== "No card present") {
               console.log("Received:", json.UID);
               updateHighlight(json.UID);
@@ -196,9 +196,8 @@ const readers = [
 
 const items = [
   {
-    // UID: " 04 78 f1 91 78 00 00",
     UID: " 23 bd 8a 18",
-    // UIDtag:
+    UIDtag: " 04 e8 ea 91 78 00 00",
     presentCounts: 0,
     lastUpdatedTime: 0,
     isHighlighted: false,
@@ -206,8 +205,8 @@ const items = [
     section: "societal-norms",
   },
   {
-    // UID: " 04 32 ef 91 78 00 00",
     UID: " 53 e1 71 ee",
+    UIDtag: " 04 32 ef 91 78 00 00",
     presentCounts: 0,
     lastUpdatedTime: 0,
     isHighlighted: false,
@@ -215,8 +214,8 @@ const items = [
     section: "misogyny",
   },
   {
-    // UID: " 04 50 ef 91 78 00 00",
     UID: " f3 c4 64 ee",
+    UIDtag: " 04 50 ef 91 78 00 00",
     presentCounts: 0,
     lastUpdatedTime: 0,
     isHighlighted: false,
@@ -224,15 +223,15 @@ const items = [
     section: "life",
   },
   {
-    // UID: " 04 e8 ea 91 78 00 00",
     UID: " 83 22 d9 12",
+    UIDtag: " 04 03 f1 91 78 00 00",
     presentCounts: 0,
     lastUpdatedTime: 0,
     isHighlighted: false,
     isPresent: true,
     section: "reproductive-rights",
   },
-]
+];
 
 //store all possible states:
 const states = [
@@ -261,7 +260,10 @@ const checkOnce = () => {
 };
 
 const updateHighlight = (uid) => {
-  const currentItem = items.find((item) => item.UID === uid);
+  let currentItem = items.find((item) => item.UIDtag === uid);
+  if (!currentItem) {
+    currentItem = items.find((item) => item.UID === uid);
+  }
   updateSectionDisplay(currentItem.section);
 };
 

@@ -15,7 +15,6 @@ const switchSections = (object) => {
   pickedObject.textContent = object.pickedObject;
   betweenTitle.textContent = object.betweenTitle;
 
-
   animateBackgroundImages(object.backgroundImage);
 
 };
@@ -80,10 +79,4 @@ const animateBackgroundImages = (src) => {
   });
 };
 
-const init = () => {
-  switchSections(camera);
-};
-
-
-
-init();
+export { switchSections };
