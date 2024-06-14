@@ -14,7 +14,7 @@ Figma project link: https://www.figma.com/team_invite/redeem/nGwHYTaNVkRE9XJfl6R
 
 GitHub scrum project link: https://github.com/users/Marat200118/projects/5/views/1
 
-Case study presentation: //link here
+Case study presentation: https://www.figma.com/proto/wvZXxtBsV2u6mOf5LUKcqq/Research?page-id=338%3A333&node-id=338-343&viewport=376%2C168%2C0.05&t=cuDZiuLPlT5yDSYE-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=338%3A343
 
 ## Getting started
 
