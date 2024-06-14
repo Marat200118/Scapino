@@ -1,17 +1,18 @@
 import { inBetween } from "./in-between";
 
+let prevSection = "start";
 
 const updateSectionDisplay = (currentSection) => {
-  // let localSection = currentSection;
-
-  // if (isRemoteActive) {
-  //   localSection = currentSection;
-  // }
+  if (currentSection === prevSection) {
+    return;
+  }
+  prevSection = currentSection;
 
   console.log(`I'm here with ${currentSection}`);
 
   document.querySelector(".introduction").style.display = "none";
   document.querySelector(".in-between").style.display = "none";
+  document.querySelector(".in-between-universal").style.display = "none";
   document.querySelector(".misogyny").style.display = "none";
   document.querySelector(".life").style.display = "none";
   document.querySelector(".norms").style.display = "none";
@@ -23,11 +24,13 @@ const updateSectionDisplay = (currentSection) => {
   switch (currentSection) {
     case "start":
       document.querySelector(".introduction").style.display = "block";
+      console.log("start");
       break;
-    case "in-between-camera":
+    case "in-between-societal-norms":
       inBetween("camera");
       break;
     case "in-between-misogyny":
+      console.log("in-between-misogyny");
       inBetween("comb");
       break;
     case "in-between-reproductive-rights":

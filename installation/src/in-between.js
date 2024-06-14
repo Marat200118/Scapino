@@ -3,6 +3,7 @@ import { gsap } from "gsap";
 let object;
 
 const inBetween = (string) => {
+  document.querySelector(".in-between").style.display = "block";
 
   switch (string) {
     case "camera":

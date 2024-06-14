@@ -4,13 +4,12 @@ import { updateSectionDisplay } from "./update-sections";
 // app state
 const hasWebSerial = "serial" in navigator;
 let isConnected = false;
-
 const $notSupported = document.getElementById("not-supported");
 const $supported = document.getElementById("supported");
 const $notConnected = document.getElementById("not-connected");
 const $connected = document.getElementById("connected");
-
 const $connectButton = document.getElementById("connectButton");
+
 
 const arduinoInfo = {
   usbProductId: 32823,
@@ -19,6 +18,9 @@ const arduinoInfo = {
 let connectedArduinoPorts = [];
 
 let writer;
+
+let emptyReaders = []; // global variable to check empty readers
+let isHighlightActive = false; // global variable to check if highlight is active
 
 const init = async () => {
   displaySupportedState();
@@ -37,6 +39,22 @@ const init = async () => {
       }
     }
   });
+
+    //   if (!navigator.mediaDevices?.enumerateDevices) {
+    //   console.log("enumerateDevices() not supported.");
+    // } else {
+    //   // List cameras and microphones.
+    //   navigator.mediaDevices
+    //     .enumerateDevices()
+    //     .then((devices) => {
+    //       devices.forEach((device) => {
+    //         console.log(`${device.kind}: ${device.label} id = ${device.deviceId}`);
+    //       });
+    //     })
+    //     .catch((err) => {
+    //       console.error(`${err.name}: ${err.message}`);
+    //     });
+    // }
 
   navigator.serial.addEventListener("disconnect", (e) => {
     const port = e.target;
@@ -125,27 +143,72 @@ const connect = async (port) => {
         // console.log("Received:", value);
         try {
           const json = JSON.parse(value);
-          // console.log(json);
-          // setTimeout(updateCircle(json), 1000);
+
+
+
+
           if (json.reader === "Reader 2") {
             if (json.UID !== "No card present") {
               console.log("Received:", json.UID);
               updateHighlight(json.UID);
+              isHighlightActive = true;
+              emptyReaders = [];
             } else {
-              // console.log("No card present");
+              // updateSectionDisplay("start");
+              isHighlightActive = false;
+            }
+          } else if (!isHighlightActive) {
+
+            // checking readers that are not highlight (Reader 2)
+
+            const currentReader = readers.find(
+              (reader) => reader.name === json.reader
+            );
+        
+
+            if (json.UID !== "No card present") {
+              currentReader.lastUIDPresent = json.UID;
+              //if its inside the array, remove it
+              if (emptyReaders.includes(currentReader)) {
+                emptyReaders = emptyReaders.filter(
+                  (reader) => reader !== currentReader
+                );
+              }
+              
+               if (emptyReaders.length == 0) {
+                console.log(emptyReaders.length);
+                 updateSectionDisplay("start");
+                 emptyReaders = [];
+               }
+            } else {
+
+              // checking if empty readers are already in the array
+
+              if (!emptyReaders.includes(currentReader)) {
+                emptyReaders.push(currentReader);
+                console.log(currentReader);
+              }
+            }
+            if (emptyReaders.length === 0) {
               updateSectionDisplay("start");
+              emptyReaders = [];
+            } else if (emptyReaders.length === 1) {
+              let currentItem = items.find((item)=> item.UIDtag === emptyReaders[0].lastUIDPresent);
+            
+              if (!currentItem) {
+                currentItem = items.find((item)=> item.UID === emptyReaders[0].lastUIDPresent);
+              }
+              
+              updateSectionDisplay(`in-between-${currentItem.section}`);
+            // } else if (emptyReaders.length > 1) {
+            //   // console.log(emptyReaders.length);
+            //   updateSectionDisplay("in-between-universal");
+            // } 
             }
           }
-          // if (json.reader === "Reader 1") {
-          //   if ((json.UID !== "No card present") && (json.UID !== "Card previously present")) {
-          //     readers[2].lastUIDPresent = json.UID;
-          //     console.log(json.UID);
-          //   }
-          // else if (json.UID === "Card previously present") {
-          //   console.log(`You just picked up ${readers[2].lastUIDPresent}`);
-          //   updateSectionDisplay("in-between");
-          // }
-          //}
+
+
+
         } catch (error) {
           // console.log("Received non-JSON message:", value);
         }
@@ -165,7 +228,7 @@ const connect = async (port) => {
 
 
 
-const timeThreshold = 1550;
+// const timeThreshold = 1550;
 
 
 
@@ -174,23 +237,28 @@ const timeThreshold = 1550;
 const readers = [
   {
     name: "Reader 1",
-    lastUIDPresent: " 04 78 f1 91 78 00 00",
+    lastUIDPresentTag: " 04 78 f1 91 78 00 00",
+    lastUIDPresent: " 23 bd 8a 18",
   },
   {
     name: "Reader 2",
-    lastUIDPresent: " 04 40 f1 91 78 00 00",
+    lastUIDPresentTag: null,
+    lastUIDPresent: null,
   },
   {
     name: "Reader 3",
-    lastUIDPresent: " 04 60 f1 91 78 00 00",
+    lastUIDPresentTag: " 04 60 f1 91 78 00 00",
+    lastUIDPresent: " f3 c4 64 ee",
   },
   {
     name: "Reader 4",
-    lastUIDPresent: " 04 60 f1 91 78 00 00",
+    lastUIDPresentTag: " 04 60 f1 91 78 00 00",
+    lastUIDPresent: " 83 22 d9 12",
   },
   {
     name: "Reader 5",
-    lastUIDPresent: null,
+    lastUIDPresentTag: " 04 40 f1 91 78 00 00",
+    lastUIDPresent: " 53 e1 71 ee",
   },
 ];
 
@@ -280,7 +348,6 @@ const displaySupportedState = () => {
 const displayConnectionState = () => {
   if (isConnected) {
     $notConnected.style.display = "none";
-    $connected.style.display = "block";
   } else {
     $notConnected.style.display = "block";
     $connected.style.display = "none";
