@@ -24,8 +24,20 @@ const updateSectionDisplay = (currentSection) => {
     case "start":
       document.querySelector(".introduction").style.display = "block";
       break;
-    case "in-between":
+    case "in-between-camera":
       inBetween("camera");
+      break;
+    case "in-between-misogyny":
+      inBetween("comb");
+      break;
+    case "in-between-reproductive-rights":
+      inBetween("test");
+      break;
+    case "in-between-life":
+      inBetween("plaster-cast");
+      break;
+    case "in-between-universal":
+      document.querySelector(".in-between-universal").style.display = "block";
       break;
     case "misogyny":
       document.querySelector(".misogyny").style.display = "block";
