@@ -1,6 +1,28 @@
 import { gsap } from "gsap";
 
-const switchSections = (object) => {
+let object;
+
+const inBetween = (string) => {
+
+  switch (string) {
+    case "camera":
+      object = camera;
+      break;
+    case "comb":
+      object = comb;
+      break;
+    case "plaster-cast":
+      object = plasterCast;
+      break;
+    case "test":
+      object = test;
+      break;
+    default:
+      object = camera;
+      break;
+  }
+
+
   const backgroundImage = document.querySelector(
     ".background-image-inbetween img"
   );
@@ -79,4 +101,4 @@ const animateBackgroundImages = (src) => {
   });
 };
 
-export { switchSections };
+export { inBetween };
