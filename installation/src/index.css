@@ -260,3 +260,122 @@ p span {
 .or::after {
   bottom: -8rem;
 }
+
+/* universal section */
+
+.between-text-left.universal {
+  font-size: 2.5rem;
+  max-width: 20ch;
+}
+
+.between-text-right.universal {
+  font-size: 2.5rem;
+  max-width: 20ch;
+}
+
+.or.universal {
+  font-size: 2rem;
+  padding: 1rem;
+}
+
+.or.universal::before {
+  height: 3rem;
+  top: -5rem;
+}
+
+.or.universal::after {
+  height: 35rem;
+  top: 8rem;
+}
+
+.flex-container-inbetween.universal p {
+  margin-top: 0rem;
+  margin-bottom: 0rem;
+  max-width: 30ch;
+}
+
+.flex-container-inbetween.universal {
+  margin-top: 1rem;
+}
+
+.object p {
+  margin-top: 0rem;
+  margin-bottom: 0rem;
+}
+
+.universal-object-image {
+  width: 15rem;
+}
+
+.object-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 4rem;
+  gap: 4rem;
+}
+
+.universal-object-text {
+  text-align: left;
+}
+
+.object {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  gap: 5rem;
+  max-height: 12rem;
+}
+
+.object.reverse {
+  flex-direction: row-reverse;
+}
+
+.first-row, .second-row {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.in-between-universal h1 {
+  font-size: 8rem;
+  margin-top: 0rem;
+  margin-bottom: 5rem;
+}
+
+.universal-heading {
+  font-weight: 500;
+}
+
+.universal-description {
+  font-size: 2rem
+}
+
+.universal-object-image.test {
+  transform: rotate(-30deg);
+}
+
+.universal-object-image.comb {
+  transform: rotate(30deg);
+}
+
+.universal-object-image.camera {
+  transform: rotate(-30deg);
+}
+
+.universal-object-image.cast {
+  transform: rotate(30deg);
+  transform: scale(0.8);
+}
+
+hr {
+  border: 0;
+  border-top: 2px solid white;
+  color: white;
+  margin: 0;
+}
+
+
+/* #connectButton {
+  display: none;
+} */
