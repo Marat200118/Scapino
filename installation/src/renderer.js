@@ -1,15 +1,15 @@
 import "./index.css";
+import { updateSectionDisplay } from "./update-sections";
 
 // app state
 const hasWebSerial = "serial" in navigator;
 let isConnected = false;
-
 const $notSupported = document.getElementById("not-supported");
 const $supported = document.getElementById("supported");
 const $notConnected = document.getElementById("not-connected");
 const $connected = document.getElementById("connected");
-
 const $connectButton = document.getElementById("connectButton");
+
 
 const arduinoInfo = {
   usbProductId: 32823,
@@ -18,12 +18,13 @@ const arduinoInfo = {
 let connectedArduinoPorts = [];
 
 let writer;
-const $circle1 = document.getElementById("circle1");
-const $circle2 = document.getElementById("circle2");
-const $circle3 = document.getElementById("circle3");
+
+let emptyReaders = []; // global variable to check empty readers
+let isHighlightActive = false; // global variable to check if highlight is active
 
 const init = async () => {
   displaySupportedState();
+  updateSectionDisplay("start");
   if (!hasWebSerial) return;
   displayConnectionState();
 
@@ -38,6 +39,22 @@ const init = async () => {
       }
     }
   });
+
+    //   if (!navigator.mediaDevices?.enumerateDevices) {
+    //   console.log("enumerateDevices() not supported.");
+    // } else {
+    //   // List cameras and microphones.
+    //   navigator.mediaDevices
+    //     .enumerateDevices()
+    //     .then((devices) => {
+    //       devices.forEach((device) => {
+    //         console.log(`${device.kind}: ${device.label} id = ${device.deviceId}`);
+    //       });
+    //     })
+    //     .catch((err) => {
+    //       console.error(`${err.name}: ${err.message}`);
+    //     });
+    // }
 
   navigator.serial.addEventListener("disconnect", (e) => {
     const port = e.target;
@@ -126,11 +143,72 @@ const connect = async (port) => {
         // console.log("Received:", value);
         try {
           const json = JSON.parse(value);
-          // console.log(json);
-          updateCircle(json);
-          updateSectionDisplay();
+
+
+
+
+          if (json.reader === "Reader 2") {
+            if (json.UID !== "No card present") {
+              console.log("Received:", json.UID);
+              updateHighlight(json.UID);
+              isHighlightActive = true;
+              emptyReaders = [];
+            } else {
+              // updateSectionDisplay("start");
+              isHighlightActive = false;
+            }
+          } else if (!isHighlightActive) {
+
+            // checking readers that are not highlight (Reader 2)
+
+            const currentReader = readers.find(
+              (reader) => reader.name === json.reader
+            );
+        
+
+            if (json.UID !== "No card present") {
+              currentReader.lastUIDPresent = json.UID;
+              //if its inside the array, remove it
+              if (emptyReaders.includes(currentReader)) {
+                emptyReaders = emptyReaders.filter(
+                  (reader) => reader !== currentReader
+                );
+              }
+              
+               if (emptyReaders.length == 0) {
+                 updateSectionDisplay("start");
+                 emptyReaders = [];
+               }
+            } else {
+
+              // checking if empty readers are already in the array
+
+              if (!emptyReaders.includes(currentReader)) {
+                emptyReaders.push(currentReader);
+                console.log(currentReader);
+              }
+            }
+            if (emptyReaders.length === 0) {
+              updateSectionDisplay("start");
+              emptyReaders = [];
+            } else if (emptyReaders.length === 1) {
+              let currentItem = items.find((item)=> item.UIDtag === emptyReaders[0].lastUIDPresent);
+            
+              if (!currentItem) {
+                currentItem = items.find((item)=> item.UID === emptyReaders[0].lastUIDPresent);
+              }
+              
+              updateSectionDisplay(`in-between-${currentItem.section}`);
+            } else if (emptyReaders.length > 1) {
+              // console.log(emptyReaders.length);
+              updateSectionDisplay("in-between-universal");
+            }
+          }
+
+
+
         } catch (error) {
-          console.log("Received non-JSON message:", value);
+          // console.log("Received non-JSON message:", value);
         }
       }
     }
@@ -146,90 +224,113 @@ const connect = async (port) => {
   }
 };
 
-const updateSectionDisplay = () => {
-  const circle1Green = $circle1.style.backgroundColor === "green";
-  const circle2Green = $circle2.style.backgroundColor === "green";
-  const circle3Green = $circle3.style.backgroundColor === "green";
 
-  document.querySelector(".introduction").style.display = "none";
-  document.querySelector(".between-section").style.display = "none";
-  document.querySelector(".interview").style.display = "none";
-  document.querySelector(".dance").style.display = "none";
 
-  document.querySelectorAll("video").forEach((video) => {
-    video.pause();
-  });
+// const timeThreshold = 1550;
 
-  if (circle1Green && circle2Green) {
-    document.querySelector(".introduction").style.display = "block";
-  } else if (circle1Green && !circle2Green && !circle3Green) {
-    document.querySelector(".between-section").style.display = "block";
-  } else if (!circle1Green && circle2Green && !circle3Green) {
-    document.querySelector(".between-section").style.display = "block";
-  } else if (circle1Green && circle3Green) {
-    document.querySelector(".dance").style.display = "block";
-    const danceVideo = document.querySelector(".dance video");
-    danceVideo.play();
-  } else if (circle2Green && circle3Green) {
-    document.querySelector(".interview").style.display = "block";
-    const interviewVideo = document.querySelector(".interview video");
-    interviewVideo.play();
-  } else {
-    document.querySelector(".introduction").style.display = "block";
+
+
+
+//store all the readers:
+const readers = [
+  {
+    name: "Reader 1",
+    lastUIDPresentTag: " 04 78 f1 91 78 00 00",
+    lastUIDPresent: " 23 bd 8a 18",
+  },
+  {
+    name: "Reader 2",
+    lastUIDPresentTag: null,
+    lastUIDPresent: null,
+  },
+  {
+    name: "Reader 3",
+    lastUIDPresentTag: " 04 60 f1 91 78 00 00",
+    lastUIDPresent: " f3 c4 64 ee",
+  },
+  {
+    name: "Reader 4",
+    lastUIDPresentTag: " 04 60 f1 91 78 00 00",
+    lastUIDPresent: " 83 22 d9 12",
+  },
+  {
+    name: "Reader 5",
+    lastUIDPresentTag: " 04 40 f1 91 78 00 00",
+    lastUIDPresent: " 53 e1 71 ee",
+  },
+];
+
+const items = [
+  {
+    UID: " 23 bd 8a 18",
+    UIDtag: " 04 e8 ea 91 78 00 00",
+    presentCounts: 0,
+    lastUpdatedTime: 0,
+    isHighlighted: false,
+    isPresent: true,
+    section: "societal-norms",
+  },
+  {
+    UID: " 53 e1 71 ee",
+    UIDtag: " 04 32 ef 91 78 00 00",
+    presentCounts: 0,
+    lastUpdatedTime: 0,
+    isHighlighted: false,
+    isPresent: true,
+    section: "misogyny",
+  },
+  {
+    UID: " f3 c4 64 ee",
+    UIDtag: " 04 50 ef 91 78 00 00",
+    presentCounts: 0,
+    lastUpdatedTime: 0,
+    isHighlighted: false,
+    isPresent: true,
+    section: "life",
+  },
+  {
+    UID: " 83 22 d9 12",
+    UIDtag: " 04 03 f1 91 78 00 00",
+    presentCounts: 0,
+    lastUpdatedTime: 0,
+    isHighlighted: false,
+    isPresent: true,
+    section: "reproductive-rights",
+  },
+];
+
+//store all possible states:
+const states = [
+  {
+    section: "start",
+  },
+  {
+    section: "in-between",
+  },
+  {
+    section: "content",
+  },
+];
+
+// let highlightIsActive = false;
+
+//start with the first state:
+let currentState = states[0];
+const checkOnce = () => {
+  //check if it's 1-4 readers:
+  if (json.reader !== "Reader 5") {
+    if (json.UID !== "No card present") {
+      // json.UID
+    }
   }
 };
 
-let cardPresentCount1 = 0;
-let cardPresentCount2 = 0;
-let cardPresentCount3 = 0;
-let lastUpdatedTime1 = 0;
-let lastUpdatedTime2 = 0;
-let lastUpdatedTime3 = 0;
-const timeThreshold = 1000;
-
-const updateCircle = (json) => {
-  const now = Date.now();
-
-  if (json.UID !== "No card present") {
-    if (json.reader === "Reader 1") {
-      if (cardPresentCount1 === 0) {
-        lastUpdatedTime1 = now;
-        cardPresentCount1++;
-      } else if (now - lastUpdatedTime1 < timeThreshold) {
-        cardPresentCount1++;
-        lastUpdatedTime1 = now;
-      }
-    } else if (json.reader === "Reader 2") {
-      if (cardPresentCount2 === 0) {
-        lastUpdatedTime2 = now;
-        cardPresentCount2++;
-      } else if (now - lastUpdatedTime2 < timeThreshold) {
-        cardPresentCount2++;
-        lastUpdatedTime2 = now;
-      }
-    } else if (json.reader === "Reader 3") {
-      if (cardPresentCount3 === 0) {
-        lastUpdatedTime3 = now;
-        cardPresentCount3++;
-      } else if (now - lastUpdatedTime3 < timeThreshold) {
-        cardPresentCount3++;
-        lastUpdatedTime3 = now;
-      }
-    }
-  } else {
-    if (now - lastUpdatedTime1 > timeThreshold) {
-      cardPresentCount1 = 0;
-    }
-    if (now - lastUpdatedTime2 > timeThreshold) {
-      cardPresentCount2 = 0;
-    }
-    if (now - lastUpdatedTime3 > timeThreshold) {
-      cardPresentCount3 = 0;
-    }
-    $circle1.style.backgroundColor = cardPresentCount1 >= 3 ? "green" : "red";
-    $circle2.style.backgroundColor = cardPresentCount2 >= 3 ? "green" : "red";
-    $circle3.style.backgroundColor = cardPresentCount3 >= 3 ? "green" : "red";
+const updateHighlight = (uid) => {
+  let currentItem = items.find((item) => item.UIDtag === uid);
+  if (!currentItem) {
+    currentItem = items.find((item) => item.UID === uid);
   }
+  updateSectionDisplay(currentItem.section);
 };
 
 const displaySupportedState = () => {
@@ -245,7 +346,6 @@ const displaySupportedState = () => {
 const displayConnectionState = () => {
   if (isConnected) {
     $notConnected.style.display = "none";
-    $connected.style.display = "block";
   } else {
     $notConnected.style.display = "block";
     $connected.style.display = "none";

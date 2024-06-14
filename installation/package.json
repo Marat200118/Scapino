@@ -2,7 +2,7 @@
   "name": "vite-app",
   "productName": "vite-app",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "Installation Electron project",
   "main": ".vite/build/main.js",
   "scripts": {
     "start": "electron-forge start",
@@ -31,6 +31,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.1"
+    "electron-squirrel-startup": "^1.0.1",
+    "gsap": "^3.12.5"
   }
 }
