@@ -198,6 +198,7 @@ const items = [
   {
     // UID: " 04 78 f1 91 78 00 00",
     UID: " 23 bd 8a 18",
+    // UIDtag:
     presentCounts: 0,
     lastUpdatedTime: 0,
     isHighlighted: false,

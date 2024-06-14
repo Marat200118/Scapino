@@ -1,5 +1,4 @@
 const updateSectionDisplay = (currentSection) => {
-
   // let localSection = currentSection;
 
   // if (isRemoteActive) {
@@ -12,12 +11,11 @@ const updateSectionDisplay = (currentSection) => {
   document.querySelector(".in-between").style.display = "none";
   document.querySelector(".misogyny").style.display = "none";
   document.querySelector(".life").style.display = "none";
-  document.querySelector(".societal-norms").style.display = "none";
+  document.querySelector(".norms").style.display = "none";
   document.querySelector(".reproductive-rights").style.display = "none";
   document.querySelectorAll("video").forEach((video) => {
     video.pause();
   });
-
 
   switch (currentSection) {
     case "start":
@@ -35,7 +33,7 @@ const updateSectionDisplay = (currentSection) => {
       document.querySelector(".life video").play();
       break;
     case "societal-norms":
-      document.querySelector(".societal-norms").style.display = "block";
+      document.querySelector(".norms").style.display = "block";
       break;
     case "reproductive-rights":
       document.querySelector(".reproductive-rights").style.display = "block";
