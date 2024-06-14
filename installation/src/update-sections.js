@@ -1,3 +1,6 @@
+import { inBetween } from "./in-between";
+
+
 const updateSectionDisplay = (currentSection) => {
   // let localSection = currentSection;
 
@@ -22,7 +25,7 @@ const updateSectionDisplay = (currentSection) => {
       document.querySelector(".introduction").style.display = "block";
       break;
     case "in-between":
-      document.querySelector(".in-between").style.display = "block";
+      inBetween("camera");
       break;
     case "misogyny":
       document.querySelector(".misogyny").style.display = "block";
