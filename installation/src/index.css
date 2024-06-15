@@ -192,7 +192,7 @@ p span {
 }
 
 canvas {
-  background-color: #F94300;
+  background-color: #0A0C0F;
   position: absolute;
   top: 0;
   left: 0;
@@ -210,7 +210,6 @@ canvas {
   width: 95vw;
   height: 95vh;
 }
-
 
 /* in between */
 
