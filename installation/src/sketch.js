@@ -17,11 +17,12 @@ console.log('ml5 version:', ml5.version);
 
 function preload() {
     // Load the shader to use as a filter
-    posteriseShader = loadShader("./filter.vert", "./filter.frag");
+    posteriseShader = loadShader("/src/p5/filter.vert", "/src/p5/filter.frag");
 }
 
 function setup() {
-    createCanvas(800, 600, WEBGL);
+    let canvas = createCanvas(800, 600, WEBGL);
+    canvas.parent(document.querySelector(".video-filter"));
 
     // Capture the video
     video = createCapture(VIDEO);

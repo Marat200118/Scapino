@@ -176,6 +176,28 @@ p span {
   flex-direction: row-reverse;
 }
 
+.norms .flex-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100vh;
+}
+
+.video-filter {
+  width: 800px;
+  height: 600px;
+  position: relative;
+}
+
+canvas {
+  background-color: #F94300;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 
 /* intro section */
 
