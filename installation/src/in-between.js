@@ -73,7 +73,10 @@ const test = {
 const positions = [
   { x: 0.2, y: 0.2, rotate: -17, zIndex: 0, scale: 0.6 },
   { x: 0.9, y: 0.4, rotate: 25, zIndex: 0, scale: 0.5 },
+  { x: 0.4, y: 0.8, rotate: 10, zIndex: 0, scale: 0.6 },
+  { x: 0.7, y: 0.8, rotate: 10, zIndex: 0, scale: 0.4 },
   { x: 0.1, y: 0.8, rotate: -25, zIndex: 0, scale: 0.4 },
+  { x: 0.9, y: 0.8, rotate: 35, zIndex: 0, scale: 0.7 },
 ];
 
 const animateBackgroundImages = (src) => {

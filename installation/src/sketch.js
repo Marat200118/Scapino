@@ -11,7 +11,7 @@ let frequency = 10.0; // You can adjust this value
 let amplitude = 0.1; // You can adjust this value
 
 let aspectRatio;
-console.log("ml5 version:", ml5.version);
+// console.log("ml5 version:", ml5.version);
 
 function preload() {
   // Load the shader to use as a filter

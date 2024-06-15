@@ -25,7 +25,7 @@ let isHighlightActive = false; // global variable to check if highlight is activ
 const init = async () => {
   displaySupportedState();
   updateSectionDisplay("start");
-  // updateSectionDisplay("societal-norms"); //for HTML testing and development
+  // updateSectionDisplay("in-between-universal"); //for HTML testing and development
   if (!hasWebSerial) return;
   displayConnectionState();
 
@@ -71,12 +71,12 @@ const init = async () => {
   const ports = await navigator.serial.getPorts();
   connectedArduinoPorts = ports.filter(isArduinoPort);
 
-  console.log("Ports");
+  // console.log("Ports");
   ports.forEach((port) => {
     const info = port.getInfo();
     console.log(info);
   });
-  console.log("Connected Arduino ports");
+  // console.log("Connected Arduino ports");
   connectedArduinoPorts.forEach((port) => {
     const info = port.getInfo();
     console.log(info);
