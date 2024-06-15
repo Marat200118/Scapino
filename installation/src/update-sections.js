@@ -1,4 +1,5 @@
 import { inBetween } from "./in-between";
+import { initReproductiveRightsAnimation } from "./gsap";
 
 let prevSection = null;
 
@@ -55,6 +56,7 @@ const updateSectionDisplay = (currentSection) => {
       break;
     case "reproductive-rights":
       document.querySelector(".reproductive-rights").style.display = "block";
+      initReproductiveRightsAnimation(); //tryin to call the function here to reset the GSAP animation
       break;
     default:
       document.querySelector(".introduction").style.display = "block";
