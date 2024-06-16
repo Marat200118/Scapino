@@ -367,9 +367,20 @@ li {
   }
 
   h1 {
-    font-size: 4rem;
+    font-size: 8rem;
     text-align: center;
     justify-self: center;
+  }
+
+
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+    font-size: 2rem;
   }
 
   #app {
@@ -393,7 +404,7 @@ li {
   }
 
   article {
-    padding: 0 4rem;
+    padding: 0 8rem;
 
   }
 
@@ -430,6 +441,11 @@ li {
   .tickets__list {
     /* overflow-x: hidden; */
     margin-top: 2rem;
+
+  }
+
+  .tickets__item p {
+    font-size: 1.25rem;
   }
 
   .tickets__list::after {
@@ -446,6 +462,24 @@ li {
     position: absolute;
     top: -50%;
     left: 50%;
+  }
+
+  .tickets__item a {
+    font-size: 1.125rem;
+  }
+
+  .objects p,
+  .objects h3 {
+    text-align: center;
+  }
+
+  .objects__list {
+    transform: scale(1.1);
+    padding-top: 1.5rem;
+  }
+
+  .objects__desc {
+    font-size: 1.125rem;
   }
 
   .objects__nav {
@@ -499,8 +533,12 @@ li {
     justify-content: space-between;
     align-items: flex-end;
     margin-bottom: 2rem;
-    width: 90cqw;
+    width: 84cqw;
     padding: 0;
+  }
+
+  article:last-of-type {
+    margin-bottom: 0;
   }
 
   .contact p {
@@ -516,7 +554,7 @@ li {
     background-repeat: no-repeat;
     z-index: -1;
     position: absolute;
-    top: 87%;
+    top: 82%;
     right: 0;
   }
 }
