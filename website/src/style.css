@@ -142,6 +142,10 @@ article {
   position: relative;
 }
 
+li {
+  pointer-events: none;
+}
+
 .info::after {
   content: '';
   width: 50%;
@@ -229,7 +233,8 @@ article {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: right;
-  z-index: 0;
+  z-index: -2;
+  pointer-events: none;
   position: absolute;
   top: -95%;
   left: 0;
@@ -435,7 +440,8 @@ article {
     background-image: url('../static/img/Scapino-Ballet-big-brown.png');
     background-size: cover;
     background-repeat: no-repeat;
-    z-index: -1;
+    z-index: -3;
+    pointer-events: none;
     opacity: 60%;
     position: absolute;
     top: -50%;
