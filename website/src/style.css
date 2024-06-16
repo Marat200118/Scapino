@@ -446,7 +446,10 @@ article {
     background-image: none;
   }
 
-  /* .subheader {} */
+  .subheader {
+    align-self: flex-end;
+    margin-right: 8rem;
+  }
 
   .webgl {
     width: 50% !important;
