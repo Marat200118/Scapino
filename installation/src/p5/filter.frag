@@ -36,7 +36,7 @@ void drawPolygon(inout vec3 color, vec2 uv, vec2 vertices[7], int numVertices) {
   for (int i = 1; i < 6; i++) { // Fixed loop bounds
     if (i >= numVertices - 1) break;
     if (pointInTriangle(uv, vertices[0], vertices[i], vertices[i + 1])) {
-      color = vec3(1.0, 0.5, 0.0); // Orange color for shapes
+      color = vec3(0.98, 0.26, 0.0); // normalised scapino orange color for shapes
     }
   }
 }
