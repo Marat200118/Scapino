@@ -22,8 +22,21 @@ function setup() {
   let canvas = createCanvas(800, 600, WEBGL);
   canvas.parent(document.querySelector(".video-filter"));
 
+  // Create a constraints object.
+  let constraints = {
+    video: {
+      deviceId: {
+        exact: "7a4ae5ef467696b74399ff3d6fd6c13c52e414db7623541493f8127071c35d04"
+      },
+      optional: [{ maxFrameRate: 10 }]
+    },
+    audio: false
+  };
+
+  // Create the video capture.
+  createCapture(constraints);
   // Capture the video
-  video = createCapture(VIDEO);
+  video = createCapture(constraints, { flipped: true });
   aspectRatio = video.width / video.height;
   video.size(video.width, video.height);
   video.hide(); // Hide the default video DOM element
