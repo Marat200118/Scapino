@@ -23,10 +23,10 @@ const inBetween = (string) => {
       break;
   }
 
-
   const backgroundImage = document.querySelector(
     ".background-image-inbetween img"
   );
+
   const pickedObject = document.querySelector(".picked-object");
   const betweenTitle = document.querySelector(".between__title");
   const staticBackground = document.querySelector(
@@ -39,7 +39,6 @@ const inBetween = (string) => {
   betweenTitle.textContent = object.betweenTitle;
 
   animateBackgroundImages(object.backgroundImage);
-
 };
 
 const camera = {
@@ -58,6 +57,7 @@ const comb = {
 
 const plasterCast = {
   backgroundImage: "./src/assets/scans/head.png",
+  backgroundImage2: "./src/assets/scans/head-side.png",
   staticBackground: "./src/assets/scans/head.png",
   pickedObject: "Plaster cast",
   betweenTitle: "Meaning of life",
@@ -72,10 +72,10 @@ const test = {
 
 const positions = [
   { x: 0.2, y: 0.2, rotate: -17, zIndex: 0, scale: 0.6 },
-  { x: 0.9, y: 0.4, rotate: 25, zIndex: 0, scale: 0.5 },
   { x: 0.4, y: 0.8, rotate: 10, zIndex: 0, scale: 0.6 },
-  { x: 0.7, y: 0.8, rotate: 10, zIndex: 0, scale: 0.4 },
+  { x: 0.9, y: 0.4, rotate: 25, zIndex: 0, scale: 0.5 },
   { x: 0.1, y: 0.8, rotate: -25, zIndex: 0, scale: 0.4 },
+  { x: 0.7, y: 0.8, rotate: 10, zIndex: 0, scale: 0.4 },
   { x: 0.9, y: 0.8, rotate: 35, zIndex: 0, scale: 0.7 },
 ];
 
@@ -86,11 +86,18 @@ const animateBackgroundImages = (src) => {
 
   positions.forEach((pos, index) => {
     const img = document.createElement("img");
-    img.src = src;
+    // putting here a bit ugly logic to switch between two images for plaster cast
+    // console.log(src);
+    if (src === plasterCast.backgroundImage) {
+      img.src = index % 2 === 0 ? src : plasterCast.backgroundImage2;
+    } else {
+      img.src = src;
+    }
     img.classList.add("floating-image");
     img.style.top = `${pos.y * 100}%`;
     img.style.left = `${pos.x * 100}%`;
     img.style.transform = `translate(-50%, -50%) rotate(${pos.rotate}deg) scale(${pos.scale})`;
+
     container.appendChild(img);
 
     gsap.to(img, {
