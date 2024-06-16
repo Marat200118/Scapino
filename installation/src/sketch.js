@@ -28,7 +28,6 @@ function setup() {
       deviceId: {
         exact: "7a4ae5ef467696b74399ff3d6fd6c13c52e414db7623541493f8127071c35d04"
       },
-      optional: [{ maxFrameRate: 10 }]
     },
     audio: false
   };

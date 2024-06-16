@@ -24,8 +24,8 @@ let isHighlightActive = false; // global variable to check if highlight is activ
 
 const init = async () => {
   displaySupportedState();
-  updateSectionDisplay("start");
-  // updateSectionDisplay("in-between-universal"); //for HTML testing and development
+  // updateSectionDisplay("start");
+  updateSectionDisplay("societal-norms"); //for HTML testing and development
   if (!hasWebSerial) return;
   displayConnectionState();
 
@@ -41,21 +41,21 @@ const init = async () => {
     }
   });
 
-    //   if (!navigator.mediaDevices?.enumerateDevices) {
-    //   console.log("enumerateDevices() not supported.");
-    // } else {
-    //   // List cameras and microphones.
-    //   navigator.mediaDevices
-    //     .enumerateDevices()
-    //     .then((devices) => {
-    //       devices.forEach((device) => {
-    //         console.log(`${device.kind}: ${device.label} id = ${device.deviceId}`);
-    //       });
-    //     })
-    //     .catch((err) => {
-    //       console.error(`${err.name}: ${err.message}`);
-    //     });
-    // }
+      if (!navigator.mediaDevices?.enumerateDevices) {
+      console.log("enumerateDevices() not supported.");
+    } else {
+      // List cameras and microphones.
+      navigator.mediaDevices
+        .enumerateDevices()
+        .then((devices) => {
+          devices.forEach((device) => {
+            console.log(`${device.kind}: ${device.label} id = ${device.deviceId}`);
+          });
+        })
+        .catch((err) => {
+          console.error(`${err.name}: ${err.message}`);
+        });
+    }
 
   navigator.serial.addEventListener("disconnect", (e) => {
     const port = e.target;
