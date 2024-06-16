@@ -11,6 +11,10 @@ import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 // Debug
 // const gui = new GUI()
 
+// Preloader
+const preloader = document.getElementById('preloader');
+const preloaderImg = document.querySelector('.preloader__demon');
+
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
 
@@ -34,6 +38,8 @@ let mixer = null
 let model
 
 const renderModel = (modelName, scale, y) => {
+  const width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+  scale = width > 768 ? scale * 1.5 : scale
   gltfLoader.load(
     `../models/${modelName}.glb`,
     (gltf) => {
@@ -41,7 +47,6 @@ const renderModel = (modelName, scale, y) => {
       model.position.x = 0
       model.position.y = y
       model.position.z = -0.5
-      // model.center()
       model.scale.set(scale, scale, scale)
       scene.add(model)
     }
@@ -68,36 +73,6 @@ switch (true) {
     renderModel('test', 12, 0)
 }
 
-
-
-/**
- * Textures
- */
-const textureLoader = new THREE.TextureLoader()
-const matcapTexture = textureLoader.load('../textures/15.png')
-matcapTexture.colorSpace = THREE.SRGBColorSpace
-
-
-
-const donutGeometry = new THREE.TorusGeometry(0.3, 0.2, 20, 45)
-const donutMaterial = new THREE.MeshMatcapMaterial({
-  matcap: matcapTexture
-})
-
-// for (let i = 0; i < 100; i++) {
-
-//   const donut = new THREE.Mesh(donutGeometry, donutMaterial)
-//   donut.position.x = (Math.random() - 0.5) * 10
-//   donut.position.y = (Math.random() - 0.5) * 10
-//   donut.position.z = (Math.random() - 0.5) * 10
-
-//   donut.rotation.x = Math.random() * Math.PI
-//   donut.rotation.y = Math.random() * Math.PI
-
-//   const scale = Math.random()
-//   donut.scale.set(scale, scale, scale)
-//   scene.add(donut)
-// }
 
 /**
  * Sizes
@@ -183,6 +158,7 @@ const tick = () => {
   const elapsedTime = clock.getElapsedTime()
 
   if (model) {
+    preloader.style.display = 'none';
     switch (true) {
       case url.includes('misogyny'):
         model.rotation.y = -elapsedTime * 0.5
@@ -204,9 +180,14 @@ const tick = () => {
     }
 
 
+  } else {
+    //preloader logic:
+    preloader.style.display = 'flex';
+    preloaderImg.src = `./svg/demon${(Math.floor((elapsedTime * 8) % 4)) + 1}.svg`;
+    console.log(preloaderImg.src);
   }
 
-  // Update controls
+  // Update controls, leaving it here in case of debugging
   // controls.update()
 
   // Render

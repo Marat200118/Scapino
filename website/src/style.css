@@ -36,6 +36,33 @@ ul {
   padding: 0;
 }
 
+#preloader {
+  position: fixed;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('../static/img/preloader-bg.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  background-color: var(--color-bg);
+  z-index: 100;
+}
+
+.preloader__demon {
+  width: 10rem;
+  height: 10rem;
+}
+
 body {
   margin: 0;
   display: flex;
@@ -142,9 +169,6 @@ article {
   position: relative;
 }
 
-li {
-  pointer-events: none;
-}
 
 .info::after {
   content: '';
