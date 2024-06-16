@@ -49,6 +49,8 @@ h1 {
   font-family: 'Rocked', serif;
   font-size: 2rem;
   display: flex;
+  padding-bottom: 0.5rem;
+
 }
 
 h1,
@@ -121,6 +123,7 @@ article {
 }
 
 .logo {
+  margin-top: 2rem;
   margin-bottom: 2rem;
 }
 
@@ -177,7 +180,7 @@ article {
 
 
 .tickets__list {
-  margin-top: 4rem;
+  margin-top: 2rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -214,6 +217,10 @@ article {
   background-color: var(--color-primary);
 }
 
+.info__button {
+  font-size: 1.125rem;
+}
+
 .objects::before {
   content: '';
   width: 60%;
@@ -237,6 +244,7 @@ article {
 }
 
 .objects__list {
+  margin-top: 2rem;
   display: flex;
   max-width: 90cqw;
   align-items: center;
@@ -261,7 +269,8 @@ article {
 }
 
 .objects__desc {
-  font-weight: 600;
+  font-weight: 400;
+  font-size: 1.25rem;
 }
 
 .objects__nav {
@@ -353,7 +362,6 @@ article {
   }
 
   h1 {
-
     font-size: 4rem;
     text-align: center;
     justify-self: center;
@@ -362,6 +370,12 @@ article {
   #app {
     background-image: url('../static/img/texture-desktop-1.png');
     background-repeat: no-repeat;
+  }
+
+  .logo {
+    /* margin-top: 0; */
+    align-self: flex-start;
+    margin-left: 2rem;
   }
 
   .info--container {
@@ -382,6 +396,7 @@ article {
     gap: 1rem;
     justify-content: center;
     align-items: start;
+
   }
 
   .info::after {
@@ -395,7 +410,6 @@ article {
 
   .webgl {
     width: 50% !important;
-    /* height: 60% !important; */
   }
 
   .info {
