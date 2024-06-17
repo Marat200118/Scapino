@@ -77,3 +77,4 @@ function draw() {
   // Draw a rectangle with the video texture and shader applied
   rect(0, 0, height * aspectRatio, height);
 }
+
