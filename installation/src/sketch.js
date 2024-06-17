@@ -26,7 +26,8 @@ function setup() {
   let constraints = {
     video: {
       deviceId: {
-        exact: "96c2072b9328179c2a7d2caf70c904b7ab4a385618888b74319a72eb8a8f208d"
+        // exact: "96c2072b9328179c2a7d2caf70c904b7ab4a385618888b74319a72eb8a8f208d"
+        exact: "38541c9ce703c61da8138727db8df1e466b9c8850a167b15d634ab791bb2fb0b"
       },
     },
     audio: false
