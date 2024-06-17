@@ -51,7 +51,7 @@ body {
 
 @font-face {
   font-family: 'ABCWhyteVariable';
-  src: url('.src/assets/fonts/ABCWhyteVariable-Trial.woff2') format('woff2');
+  src: url('./src/assets/fonts/ABCWhyteVariable-Trial.woff2') format('woff2');
   font-style: normal;
 }
 
@@ -71,6 +71,8 @@ h2 {
 
 .norms h2 {
   font-size: 6rem;
+  margin-top: 5rem;
+  margin-bottom: -2rem;
 }
 
 p {
@@ -97,17 +99,22 @@ p {
   width: 20rem;
 }
 
+.reproductive-rights h2 {
+  font-size: 6rem;
+  margin-top: 6rem;
+}
+
 .reproductive-rights .images img {
   width: 20rem;
   margin-bottom: 10px;
 }
 
 .reproductive-rights p {
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-family: ABCWhyteVariable, sans-serif;
   opacity: 0;
-  max-width: 40ch;
-  margin: 0;
+  max-width: 34ch;
+  margin-top: 0;
   z-index: 1;
 }
 
@@ -120,7 +127,7 @@ p span {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin-top: 5rem;
+  margin-top: 7rem;
 }
 
 .text {
@@ -203,14 +210,13 @@ p span {
 }
 
 
-
-
 /* norms section */
 
 .norms-text {
   display: flex;
   flex-direction: column;
   text-align: left;
+  align-self: baseline;
 }
 
 .norms-text-paragraph {
@@ -236,6 +242,7 @@ p span {
   width: 800px;
   height: 600px;
   position: relative;
+  margin-bottom: 9rem;
 }
 
 canvas {
@@ -243,6 +250,16 @@ canvas {
   position: absolute;
   top: 0;
   left: 0;
+}
+
+.background-image-norms img {
+  position: absolute;
+  z-index: -2;
+  opacity: 0.2;
+  left: -15rem;
+  width: 60rem;
+  top: 15rem;
+
 }
 
 
@@ -253,7 +270,7 @@ canvas {
   width: 90vw;
 }
 
-#video {
+#video-life, #video-misogyny {
   width: 95vw;
   height: 95vh;
 }
@@ -264,27 +281,39 @@ canvas {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin-top: 6rem;
 }
 
-.between-text-left,
-.between-text-right {
-  font-size: 4rem;
+.between-text-left {
+  font-size: 3rem;
+  line-height: 1.2;
+  width: 14ch;
   max-width: 15ch;
+  margin-right: -40rem;
+  padding-right: 2rem;
+}
+
+.between-text-right {
+  font-size: 3rem;
+  line-height: 1.2;
+  width: 14ch;
+  max-width: 15ch;
+  margin-left: -40rem;
 }
 
 .between__title {
   margin-top: 0;
+  font-size: 6rem;
+  margin-bottom: 7rem;
 }
 
 .picked-object {
   margin-bottom: .5rem;
+  font-size: 2.3rem;
 }
 
 .floating-image {
   position: absolute;
   z-index: -1;
-  opacity: 0.3;
 }
 
 .background-image-inbetween-static {
@@ -294,18 +323,21 @@ canvas {
 .background-image-inbetween-static img {
   position: absolute;
   z-index: -2;
-  opacity: 0.1;
-  left: 30%;
-
+  opacity: 0.9;
+  left: 27%;
+  width: 55rem;
+  top: 6rem;
+  /* transform: rotate(169deg); */
 }
 
-
 .or {
-  font-size: 5.625rem;
+  font-size: 3.5rem;
   font-weight: bold;
   background-color: #F94300;
   border-radius: 50%;
   padding: 1.5rem;
+  width: 5rem;
+  height: 5rem;
   position: relative;
   display: flex;
   justify-content: center;
@@ -334,17 +366,22 @@ canvas {
 
 .between-text-left.universal {
   font-size: 2.5rem;
-  max-width: 20ch;
+  width: 25ch;
+  margin-right: -30rem;
 }
 
 .between-text-right.universal {
   font-size: 2.5rem;
-  max-width: 20ch;
+  width: 25ch;
+  margin-left: -33rem;
 }
 
 .or.universal {
   font-size: 2rem;
   padding: 1rem;
+  width: 3rem;
+  height: 3rem;
+  /* margin-left: -11rem; */
 }
 
 .or.universal::before {
@@ -361,6 +398,7 @@ canvas {
   margin-top: 0rem;
   margin-bottom: 0rem;
   max-width: 30ch;
+  line-height: 1.2;
 }
 
 .flex-container-inbetween.universal {
@@ -370,6 +408,7 @@ canvas {
 .object p {
   margin-top: 0rem;
   margin-bottom: 0rem;
+  line-height: 1.1;
 }
 
 .universal-object-image {
@@ -381,6 +420,8 @@ canvas {
   flex-direction: column;
   margin-top: 4rem;
   gap: 4rem;
+  padding-left: 6rem;
+  padding-right: 6rem;
 }
 
 .universal-object-text {
@@ -392,8 +433,8 @@ canvas {
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  gap: 5rem;
   max-height: 12rem;
+  margin-right: 7rem;
 }
 
 .object.reverse {
@@ -407,14 +448,19 @@ canvas {
   align-items: center;
 }
 
+.first-row:nth-child(2) {
+  margin-right: 5rem;
+}
+
 .in-between-universal h1 {
-  font-size: 8rem;
+  font-size: 6.5rem;
   margin-top: 0rem;
   margin-bottom: 5rem;
 }
 
 .universal-heading {
   font-weight: 600;
+  font-size: 2.4rem;
 }
 
 .universal-description {
@@ -423,19 +469,22 @@ canvas {
 
 .universal-object-image.test {
   transform: rotate(-30deg);
+  margin-top: 4rem;
+  margin-right: 2rem;
 }
 
 .universal-object-image.comb {
-  transform: rotate(30deg);
+  transform: rotate(140deg) scale(1.6);
 }
 
 .universal-object-image.camera {
-  transform: rotate(-30deg);
+  transform: rotate(-210deg);
+  margin-bottom: 7rem;
+  margin-right: 2rem;
 }
 
 .universal-object-image.cast {
-  transform: rotate(30deg);
-  transform: scale(0.8);
+  transform: rotate(-35deg) scale(0.8);
 }
 
 hr {

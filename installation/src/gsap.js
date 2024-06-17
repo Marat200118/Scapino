@@ -35,22 +35,43 @@ const reproductiveRights = () => {
 
   images.forEach((img, index) => {
     const position = positions[index];
-    gsap.to(img, {
-      duration: 2,
-      x: position.x,
-      y: position.y,
-      rotation: position.rotate,
-      zIndex: position.zIndex,
-      ease: "power2.inOut",
-      delay: index * 0.2,
+
+    gsap.set(img, {
+      x: 0,
+      y: 0,
+      rotation: 0,
+      zIndex: 0,
     });
+
+    gsap.fromTo(
+      img,
+      {
+        x: 0,
+        y: 0,
+        rotation: 0,
+        zIndex: 0,
+      },
+      {
+        duration: 2,
+        x: position.x,
+        y: position.y,
+        rotation: position.rotate,
+        zIndex: position.zIndex,
+        ease: "power2.inOut",
+        delay: index * 0.2,
+      }
+    );
   });
 
-  gsap.to(".description", {
-    opacity: 1,
-    duration: 2,
-    delay: images.length * 0.2,
-  });
+  gsap.fromTo(".description", { 
+    opacity: 0 
+  },
+    {
+      opacity: 1,
+      duration: 2,
+      delay: images.length * 0.2,
+    }
+  );
 };
 
 initReproductiveRightsAnimation();
