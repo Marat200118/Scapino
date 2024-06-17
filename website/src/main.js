@@ -183,7 +183,7 @@ const tick = () => {
   } else {
     //preloader logic:
     preloader.style.display = 'flex';
-    preloaderImg.src = `./svg/demon${(Math.floor((elapsedTime * 8) % 4)) + 1}.svg`;
+    preloaderImg.src = `./svg/demon${(Math.floor((elapsedTime * 6) % 4)) + 1}.svg`;
     console.log(preloaderImg.src);
   }
 
