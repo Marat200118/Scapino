@@ -24,8 +24,11 @@ let isHighlightActive = false; // global variable to check if highlight is activ
 
 const init = async () => {
   displaySupportedState();
-  updateSectionDisplay("start");
-  // updateSectionDisplay("in-between-societal-norms"); //for HTML testing and development
+  // updateSectionDisplay("start");
+  // updateSectionDisplay("in-between-societal-norms"); 
+  updateSectionDisplay("in-between-misogyny");
+  // updateSectionDisplay("in-between-life");
+  // updateSectionDisplay("in-between-reproductive-rights");
   if (!hasWebSerial) return;
   displayConnectionState();
 
