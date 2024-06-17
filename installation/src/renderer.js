@@ -26,9 +26,16 @@ const init = async () => {
   displaySupportedState();
   // updateSectionDisplay("start");
   // updateSectionDisplay("in-between-societal-norms"); 
-  updateSectionDisplay("in-between-misogyny");
+  // updateSectionDisplay("in-between-misogyny");
+  // updateSectionDisplay("in-between-universal");
   // updateSectionDisplay("in-between-life");
   // updateSectionDisplay("in-between-reproductive-rights");
+  // updateSectionDisplay("misogyny");
+  // updateSectionDisplay("life");
+  // updateSectionDisplay("societal-norms");
+  updateSectionDisplay("reproductive-rights");
+
+
   if (!hasWebSerial) return;
   displayConnectionState();
 

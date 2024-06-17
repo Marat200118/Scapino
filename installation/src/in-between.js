@@ -52,7 +52,6 @@ const inBetween = (string) => {
     staticBackgroundContainer.appendChild(staticBgImg);
   });
 
-
   // const backgroundRotations = [
   //   { rotate: 0, scale: 1 },
   //   { rotate: 0, scale: 1 },
@@ -102,7 +101,7 @@ const test = {
   backgroundImage: "./src/assets/scans/test.png",
   staticBackground: "./src/assets/scans/preg-dark.png",
   staticBackgrounds: [
-    { src: "./src/assets/scans/preg-dark.png", rotate: 0, scale: 1.1},
+    { src: "./src/assets/scans/preg-dark.png", rotate: 0, scale: 1.1 },
   ],
   pickedObject: "Pregnancy test",
   betweenTitle: "Reproductive rights",
@@ -124,17 +123,31 @@ const animateBackgroundImages = (src) => {
 
   positions.forEach((pos, index) => {
     const img = document.createElement("img");
-
-    if (src === plasterCast.backgroundImage) {
-      img.src = index % 2 === 0 ? src : plasterCast.backgroundImage2;
-    } else {
-      img.src = src;
-    }
     img.classList.add("floating-image");
     img.style.opacity = pos.opacity;
     img.style.top = `${pos.y * 100}%`;
     img.style.left = `${pos.x * 100}%`;
     img.style.transform = `translate(-50%, -50%) rotate(${pos.rotate}deg) scale(${pos.scale})`;
+
+    if (src === plasterCast.backgroundImage) {
+      img.src = index === 0 || index === 2 || index === 5
+        ? plasterCast.backgroundImage2
+        : src;
+        if (index === 2) {
+          img.style.transform = `translate(-50%, -50%) rotate(10deg) scale(${pos.scale})`;
+        } else if (index === 0) {
+          img.style.transform = `rotate(-30deg) scale(${pos.scale})`;
+          img.style.top = `${pos.y - 20}%`;
+          img.style.left = `${pos.x - 5}%`;
+        } else if (index === 5) {
+          img.style.transform = `translate(-50%, -50%) rotate(30deg) scale(${
+            pos.scale + 0.5
+          })`;
+        }
+    } else {
+      img.src = src;
+    }
+
 
     container.appendChild(img);
 

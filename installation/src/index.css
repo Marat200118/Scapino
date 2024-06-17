@@ -71,6 +71,8 @@ h2 {
 
 .norms h2 {
   font-size: 6rem;
+  margin-top: 5rem;
+  margin-bottom: -2rem;
 }
 
 p {
@@ -97,17 +99,22 @@ p {
   width: 20rem;
 }
 
+.reproductive-rights h2 {
+  font-size: 6rem;
+  margin-top: 6rem;
+}
+
 .reproductive-rights .images img {
   width: 20rem;
   margin-bottom: 10px;
 }
 
 .reproductive-rights p {
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-family: ABCWhyteVariable, sans-serif;
   opacity: 0;
-  max-width: 40ch;
-  margin: 0;
+  max-width: 34ch;
+  margin-top: 0;
   z-index: 1;
 }
 
@@ -120,7 +127,7 @@ p span {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin-top: 5rem;
+  margin-top: 7rem;
 }
 
 .text {
@@ -203,14 +210,13 @@ p span {
 }
 
 
-
-
 /* norms section */
 
 .norms-text {
   display: flex;
   flex-direction: column;
   text-align: left;
+  align-self: baseline;
 }
 
 .norms-text-paragraph {
@@ -236,6 +242,7 @@ p span {
   width: 800px;
   height: 600px;
   position: relative;
+  margin-bottom: 9rem;
 }
 
 canvas {
@@ -243,6 +250,16 @@ canvas {
   position: absolute;
   top: 0;
   left: 0;
+}
+
+.background-image-norms img {
+  position: absolute;
+  z-index: -2;
+  opacity: 0.2;
+  left: -15rem;
+  width: 60rem;
+  top: 15rem;
+
 }
 
 
@@ -253,7 +270,7 @@ canvas {
   width: 90vw;
 }
 
-#video {
+#video-life, #video-misogyny {
   width: 95vw;
   height: 95vh;
 }
