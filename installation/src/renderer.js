@@ -34,8 +34,6 @@ const init = async () => {
   // updateSectionDisplay("life");
   // updateSectionDisplay("societal-norms");
   // updateSectionDisplay("reproductive-rights");
-
-
   if (!hasWebSerial) return;
   displayConnectionState();
 
@@ -215,8 +213,6 @@ const connect = async (port) => {
               updateSectionDisplay("in-between-universal");
             }
           }
-
-
 
         } catch (error) {
           // console.log("Received non-JSON message:", value);

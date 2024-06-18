@@ -67,16 +67,6 @@ const updateSectionDisplay = (currentSection) => {
     case "societal-norms":
       document.querySelector(".norms").style.display = "block";
       document.querySelector("canvas").style.display = "block";
-      // if (document.querySelector("canvas").style.display !== "block") {
-      //   //delete canvas and create new one:
-      //   document.querySelector("canvas").remove();
-      //   let canvas = document.createElement("canvas");
-      //   canvas.width = 800;
-      //   canvas.height = 600;
-      //   canvas.style.display = "block";
-      //   // document.querySelector("canvas").style.display = "block";
-      //   // window.location.reload();
-      // }
       break;
     case "reproductive-rights":
       document.querySelector(".reproductive-rights").style.display = "block";

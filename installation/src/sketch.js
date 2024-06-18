@@ -22,12 +22,15 @@ function setup() {
   let canvas = createCanvas(800, 600, WEBGL);
   canvas.parent(document.querySelector(".video-filter"));
 
+  //this approach did not work, no time to try fix
+  // const devices = navigator.mediaDevices.enumerateDevices();
+  // const videoDevice = devices.find(device => device.kind === 'videoinput' && device.label.toLowerCase().includes('webcam'));
+
   // Create a constraints object.
   let constraints = {
     video: {
       deviceId: {
-        // exact: "96c2072b9328179c2a7d2caf70c904b7ab4a385618888b74319a72eb8a8f208d"
-        exact: "38541c9ce703c61da8138727db8df1e466b9c8850a167b15d634ab791bb2fb0b"
+        exact: "0bfc55fcd1e12fb3236d9b12d82482df4783994499998d3ed193ba2c4234221d"
       },
     },
     audio: false
