@@ -454,6 +454,9 @@ article {
 
   .subheader {
     align-self: flex-end;
+  }
+
+  #app>.subheader {
     margin-right: 8rem;
   }
 
