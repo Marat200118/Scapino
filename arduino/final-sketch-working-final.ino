@@ -34,10 +34,20 @@ unsigned long previousMillis2 = 0;
 unsigned long previousMillis3 = 0;
 unsigned long previousMillis4 = 0;
 unsigned long previousMillis5 = 0;
+unsigned long animationMillis = 0;
 
 const long interval = 500; 
 const long presenceThreshold = 500; // Time threshold for presence detection
 const int maxNoCardCount = 3; // Maximum "No card present" count
+
+enum State { start, inBetween, highlightIsActive };
+
+State currentState = start;
+
+// Animation state variables
+int currentLED = 0;
+int currentBrightness = 10;
+const int animationInterval = 0; // Interval for each animation step
 
 // State tracking variables
 struct ReaderState {
@@ -66,6 +76,12 @@ void setup() {
   FastLED.addLeds<WS2812, DATA_PIN, GRB>(leds, NUM_LEDS);
   FastLED.clear();
   FastLED.show();
+
+  // Initial LED setup for all rings
+  for (int i = 0; i < NUM_RINGS; i++) {
+    setRingColor(i, 255, 255, 255);
+  }
+  setRingColor(0, 20, 20, 20); // Initial highlight color
 }
 
 void loop() {
@@ -95,6 +111,9 @@ void loop() {
     previousMillis5 = currentMillis;
     checkReader(mfrc522_5, "Reader 5", 3);
   }
+
+  updateState();
+  updateLEDs(currentMillis);
 }
 
 void checkReader(MFRC522 &reader, const char *readerName, int ringIndex) {
@@ -119,9 +138,6 @@ void checkReader(MFRC522 &reader, const char *readerName, int ringIndex) {
 
     nfcDoc["reader"] = readerName;
     nfcDoc["UID"] = uidStr;
-
-    // Turn on the LED ring corresponding to the reader
-    setRingColor(ringIndex, 0, 20, 0);
   } else {
     readerStates[ringIndex].noCardCount++;
     
@@ -129,15 +145,10 @@ void checkReader(MFRC522 &reader, const char *readerName, int ringIndex) {
       if (currentMillis - readerStates[ringIndex].lastDetectedTime > presenceThreshold) {
         readerStates[ringIndex].isPresent = false;
       }
-
       nfcDoc["reader"] = readerName;
       nfcDoc["UID"] = "No card present";
-
-      // Update LED ring based on presence state
-      setRingColor(ringIndex, 20, 0, 0);
     } else {
       nfcDoc["reader"] = readerName;
-      // nfcDoc["UID"] = "Card previously present";
       nfcDoc["UID"] = "No card present";
     }
   }
@@ -157,3 +168,54 @@ void setRingColor(int ringIndex, int red, int green, int blue) {
   }
   FastLED.show();
 }
+
+void updateState() {
+  if (readerStates[0].isPresent) {
+    currentState = highlightIsActive;
+  } else {
+    bool allOthersPresent = true;
+    bool anyOthersNotPresent = false;
+
+    for (int i = 1; i < NUM_RINGS; i++) {
+      if (!readerStates[i].isPresent) {
+        allOthersPresent = false;
+        anyOthersNotPresent = true;
+        break;
+      }
+    }
+
+    if (allOthersPresent) {
+      currentState = start;
+    } else if (anyOthersNotPresent) {
+      currentState = inBetween;
+    }
+  }
+}
+
+void updateLEDs(unsigned long currentMillis) {
+  switch (currentState) {
+    case highlightIsActive:
+      setRingColor(0, 250, 0, 155); // Highlight is purple
+      for (int i = 1; i < NUM_RINGS; i++) {
+        setRingColor(i, 5, 5, 5); // Readers dimmed to (5,5,5)
+      }
+      break;
+
+    case start:
+      for (int i = 1; i < NUM_RINGS; i++) {
+        setRingColor(i, 255, 255, 255); // 255 white
+      }
+      setRingColor(0, 5, 5, 5); // Highlight is 5 white
+      break;
+
+    case inBetween:
+      // animateRingColors(0, currentMillis); // Call the animation function for ring 0
+      setRingColor(0, 255, 255, 255);
+      for (int i = 1; i < NUM_RINGS; i++) {
+        setRingColor(i, 5, 5, 5); // Readers dimmed to (5,5,5)
+      }
+      break;
+  }
+}
+
+

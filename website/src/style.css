@@ -3,9 +3,23 @@
 :root {
   color: #fff;
   background-color: #1C1815;
-
+  --color-white: #fff;
+  --color-black: #1C1815;
   --color-primary: #F94300;
   --color-bg: #1C1815;
+
+  --font-size-large: 2rem;
+  --font-size-medium: 1.5rem;
+  --font-size-small: 1.25rem;
+  --font-size-xsmall: 1.125rem;
+
+  --font-weight-bold: 600;
+  --font-weight-medium: 500;
+  --font-weight-light: 300;
+
+  --spacing-small: 0.5rem;
+  --spacing-medium: 1rem;
+  --spacing-large: 2rem;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -36,6 +50,33 @@ ul {
   padding: 0;
 }
 
+#preloader {
+  position: fixed;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-medium);
+
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('../static/img/preloader-bg.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  background-color: var(--color-bg);
+  z-index: 100;
+}
+
+.preloader__demon {
+  width: 10rem;
+  height: 10rem;
+}
+
 body {
   margin: 0;
   display: flex;
@@ -47,8 +88,9 @@ body {
 
 h1 {
   font-family: 'Rocked', serif;
-  font-size: 2rem;
+  font-size: var(--font-size-large);
   display: flex;
+  padding-bottom: var(--spacing-small);
 }
 
 h1,
@@ -58,11 +100,11 @@ h4,
 h5,
 h6 {
   line-height: 1.1;
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--spacing-small);
 }
 
 .bold {
-  font-weight: 600;
+  font-weight: var(--font-weight-bold);
 }
 
 .orange {
@@ -74,7 +116,7 @@ h6 {
 }
 
 .subheader {
-  font-size: 1.25rem;
+  font-size: var(--font-size-small);
   margin-bottom: 0.75rem;
   line-height: 1.1;
 }
@@ -113,15 +155,16 @@ p {
 }
 
 article {
-  padding: 0 1rem;
+  padding: 0 var(--spacing-medium);
   font-family: 'ABCWhyteVariable', sans-serif;
-  font-weight: 300;
+  font-weight: var(--font-weight-light);
   line-height: 1.6;
   margin-bottom: 8rem;
 }
 
 .logo {
-  margin-bottom: 2rem;
+  margin-top: var(--spacing-large);
+  margin-bottom: var(--spacing-large);
 }
 
 .info--header {
@@ -129,8 +172,8 @@ article {
   font-family: 'ABCWhyteVariable',
     sans-serif;
 
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: var(--font-size-medium);
+  font-weight: var(--font-weight-bold);
 }
 
 .info {
@@ -138,6 +181,7 @@ article {
   font-size: 1rem;
   position: relative;
 }
+
 
 .info::after {
   content: '';
@@ -162,7 +206,7 @@ article {
 }
 
 .info__cta p {
-  font-size: 1.5rem;
+  font-size: var(--font-size-medium);
 }
 
 
@@ -170,17 +214,17 @@ article {
 .tickets__header,
 .objects__header,
 .contact__header {
-  font-weight: 600;
-  font-size: 1.5rem;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-medium);
 }
 
 
 
 .tickets__list {
-  margin-top: 4rem;
+  margin-top: var(--spacing-large);
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--spacing-medium);
   position: relative;
 }
 
@@ -188,21 +232,20 @@ article {
   content: '';
   width: 100%;
   height: calc(100vw*0.66);
-  background-image: url('../static/img/Scapino-ballet.png');
+  background-image: url('../static/img/Scapino-Ballet.png');
   background-repeat: no-repeat;
   z-index: -1;
   opacity: 70%;
   position: absolute;
   top: 50%;
-
 }
 
 .tickets__item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
-  border: 1px solid white;
+  padding: var(--spacing-medium);
+  border: 1px solid var(--color-white);
   background-color: rgba(28, 24, 21, 0.5);
 
 }
@@ -210,9 +253,13 @@ article {
 .tickets__item a,
 .additional__button,
 .info__button {
-  padding: 0.5rem 0.5rem;
-  border: 1px solid white;
+  padding: var(--spacing-small);
+  border: 1px solid var(--color-white);
   background-color: var(--color-primary);
+}
+
+.info__button {
+  font-size: var(--font-size-xsmall);
 }
 
 .objects::before {
@@ -223,7 +270,8 @@ article {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: right;
-  z-index: 0;
+  z-index: -2;
+  pointer-events: none;
   position: absolute;
   top: -95%;
   left: 0;
@@ -231,18 +279,16 @@ article {
 
 .objects {
   position: relative;
-}
-
-.objects {
-  margin-top: 4rem;
+  margin-top: var(--spacing-large);
 }
 
 .objects__list {
+  margin-top: var(--spacing-large);
   display: flex;
   max-width: 90cqw;
   align-items: center;
   overflow-x: scroll;
-  gap: 1rem;
+  gap: var(--spacing-medium);
 }
 
 
@@ -250,26 +296,25 @@ article {
 .objects__item {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--spacing-medium);
   justify-content: center;
   align-items: center;
 }
 
 .objects__img {
   width: 14rem;
-  /* height: 11.5rem; */
-
 }
 
 .objects__desc {
-  font-weight: 600;
+  font-weight: var(--font-weight-light);
+  font-size: var(--font-size-small);
 }
 
 .objects__nav {
   display: flex;
   justify-content: center;
   gap: 0.75rem;
-  margin-top: 2rem;
+  margin-top: var(--spacing-large);
 }
 
 .additional,
@@ -277,7 +322,7 @@ article {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: var(--spacing-medium);
   position: relative;
 }
 
@@ -297,22 +342,22 @@ article {
 .additional__info {
   text-align: center;
   line-height: 1.3;
-  font-size: 1.25rem;
-  font-weight: 500;
-  padding: 0 2rem;
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  padding: 0 var(--spacing-large);
 }
 
 .additional__CTA {
   font-style: italic;
   text-align: center;
-  font-size: 1.125rem;
+  font-size: var(--font-size-xsmall);
   line-height: 1.1;
   width: 20ch;
 }
 
 .additional__button {
-  font-size: 1.125rem;
-  margin-top: 2rem;
+  font-size: var(--font-size-xsmall);
+  margin-top: var(--spacing-large);
 }
 
 .contact {
@@ -334,42 +379,216 @@ article {
   right: 0;
 }
 
-.contact__list {
-  margin-top: 2rem;
+.contact__header--container-text {
   display: flex;
-  gap: 1rem;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contact__list {
+  margin-top: var(--spacing-large);
+  display: flex;
+  gap: var(--spacing-medium);
   justify-content: center;
   align-items: center;
 }
 
 @media screen and (min-width: 768px) {
-  .info--container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: auto;
+  p {
+    font-size: var(--font-size-medium);
   }
 
   h1 {
-    grid-row: 2;
-    grid-column: 1/5;
-    font-size: 4rem;
+    font-size: 8rem;
     text-align: center;
     justify-self: center;
   }
 
+
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+    font-size: var(--font-size-large);
+  }
+
+  #app {
+    background-image: url('../static/img/texture-desktop-1.png');
+    background-repeat: no-repeat;
+  }
+
+  .logo {
+    align-self: flex-start;
+    margin-left: var(--spacing-large);
+  }
+
+  .info--container {
+    margin-top: var(--spacing-large);
+    margin-bottom: var(--spacing-medium);
+
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  article {
+    padding: 0 8rem;
+
+  }
+
+  .info__cta {
+    gap: var(--spacing-medium);
+    justify-content: center;
+    align-items: start;
+  }
+
+  .info::after {
+    content: '';
+    width: 0;
+    height: 0;
+    background-image: none;
+  }
+
   .subheader {
-    grid-row: 1;
-    grid-column: 3/4;
+    align-self: flex-end;
+  }
+
+  #app>.subheader {
+    margin-right: 8rem;
   }
 
   .webgl {
-    grid-row: 3;
-    grid-column: 1/3;
-    margin-top: 2rem;
+    width: 50% !important;
   }
 
   .info {
-    grid-row: 3;
-    grid-column: 3/5;
+    margin-bottom: 0;
+    font-size: var(--font-size-medium);
+  }
+
+  .tickets {
+    align-self: flex-start;
+    margin-top: 4rem;
+  }
+
+  .tickets__list {
+    margin-top: var(--spacing-large);
+  }
+
+  .tickets__item p {
+    font-size: var(--font-size-small);
+  }
+
+  .tickets__list::after {
+    content: '';
+    width: 70cqw;
+    height: calc(70cqw*0.66);
+    /* background-image: url('../static/img/Scapino-Ballet-big.png'); */
+    background-image: url('../static/img/Scapino-Ballet-big-brown.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: -3;
+    pointer-events: none;
+    opacity: 60%;
+    position: absolute;
+    top: -50%;
+    left: 50%;
+  }
+
+  .tickets__item a {
+    font-size: var(--font-size-xsmall);
+  }
+
+  .objects p,
+  .objects h3 {
+    text-align: center;
+  }
+
+  .objects__list {
+    transform: scale(1.1);
+    padding-top: 1.5rem;
+  }
+
+  .objects__desc {
+    font-size: var(--font-size-xsmall);
+  }
+
+  .objects__nav {
+    display: none;
+  }
+
+  .additional {
+    align-items: flex-start;
+    align-self: flex-start;
+    width: 45ch;
+  }
+
+  .additional p {
+    text-align: left;
+    margin-left: 0;
+    padding-left: 0;
+  }
+
+  .additional__info {
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-light);
+  }
+
+  .additional__CTA {
+    font-size: var(--font-weight-medium)
+  }
+
+  .additional__CTA:last-of-type {
+    font-size: var(--font-size-small);
+  }
+
+  .additional::after {
+    content: '';
+    width: 40vw;
+    height: calc(40vw* 1.77);
+    background-image: url('../static/img/texture-3.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 1;
+    position: absolute;
+    top: -50%;
+    left: 70%;
+  }
+
+  .contact__header--container-text {
+    align-items: flex-start;
+  }
+
+  .contact {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: var(--spacing-large);
+    width: 84cqw;
+    padding: 0;
+  }
+
+  article:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .contact p {
+    font-size: var(--font-size-xsmall);
+  }
+
+  #app::after {
+    content: '';
+    width: 50vw;
+    height: calc(50vw*0.5);
+    background-image: url('../static/img/demons.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: -1;
+    position: absolute;
+    top: 82%;
+    right: 0;
   }
 }

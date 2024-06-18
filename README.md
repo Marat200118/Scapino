@@ -434,12 +434,6 @@ function draw() {
   amplitude = constrain(amplitude, 0.01, 0.1);
   posteriseShader.setUniform("amplitude", amplitude);
 
+
   posteriseShader.setUniform("time", millis() / 1000.0);
 
-  // Draw a rectangle with the video texture and shader applied
-  rect(0, 0, height * aspectRatio, height);
-}
-```
-
-
-### Website folder

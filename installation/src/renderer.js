@@ -40,21 +40,21 @@ const init = async () => {
     }
   });
 
-    //   if (!navigator.mediaDevices?.enumerateDevices) {
-    //   console.log("enumerateDevices() not supported.");
-    // } else {
-    //   // List cameras and microphones.
-    //   navigator.mediaDevices
-    //     .enumerateDevices()
-    //     .then((devices) => {
-    //       devices.forEach((device) => {
-    //         console.log(`${device.kind}: ${device.label} id = ${device.deviceId}`);
-    //       });
-    //     })
-    //     .catch((err) => {
-    //       console.error(`${err.name}: ${err.message}`);
-    //     });
-    // }
+  if (!navigator.mediaDevices?.enumerateDevices) {
+    console.log("enumerateDevices() not supported.");
+  } else {
+    // List cameras and microphones.
+    navigator.mediaDevices
+      .enumerateDevices()
+      .then((devices) => {
+        devices.forEach((device) => {
+          console.log(`${device.kind}: ${device.label} id = ${device.deviceId}`);
+        });
+      })
+      .catch((err) => {
+        console.error(`${err.name}: ${err.message}`);
+      });
+  }
 
   navigator.serial.addEventListener("disconnect", (e) => {
     const port = e.target;
@@ -70,12 +70,12 @@ const init = async () => {
   const ports = await navigator.serial.getPorts();
   connectedArduinoPorts = ports.filter(isArduinoPort);
 
-  console.log("Ports");
+  // console.log("Ports");
   ports.forEach((port) => {
     const info = port.getInfo();
     console.log(info);
   });
-  console.log("Connected Arduino ports");
+  // console.log("Connected Arduino ports");
   connectedArduinoPorts.forEach((port) => {
     const info = port.getInfo();
     console.log(info);
@@ -144,9 +144,6 @@ const connect = async (port) => {
         try {
           const json = JSON.parse(value);
 
-
-
-
           if (json.reader === "Reader 2") {
             if (json.UID !== "No card present") {
               console.log("Received:", json.UID);
@@ -164,7 +161,6 @@ const connect = async (port) => {
             const currentReader = readers.find(
               (reader) => reader.name === json.reader
             );
-        
 
             if (json.UID !== "No card present") {
               currentReader.lastUIDPresent = json.UID;
@@ -174,11 +170,11 @@ const connect = async (port) => {
                   (reader) => reader !== currentReader
                 );
               }
-              
-               if (emptyReaders.length == 0) {
-                 updateSectionDisplay("start");
-                 emptyReaders = [];
-               }
+
+              if (emptyReaders.length == 0) {
+                updateSectionDisplay("start");
+                emptyReaders = [];
+              }
             } else {
 
               // checking if empty readers are already in the array
@@ -192,20 +188,18 @@ const connect = async (port) => {
               updateSectionDisplay("start");
               emptyReaders = [];
             } else if (emptyReaders.length === 1) {
-              let currentItem = items.find((item)=> item.UIDtag === emptyReaders[0].lastUIDPresent);
-            
+              let currentItem = items.find((item) => item.UIDtag === emptyReaders[0].lastUIDPresent);
+
               if (!currentItem) {
-                currentItem = items.find((item)=> item.UID === emptyReaders[0].lastUIDPresent);
+                currentItem = items.find((item) => item.UID === emptyReaders[0].lastUIDPresent);
               }
-              
+
               updateSectionDisplay(`in-between-${currentItem.section}`);
             } else if (emptyReaders.length > 1) {
               // console.log(emptyReaders.length);
               updateSectionDisplay("in-between-universal");
             }
           }
-
-
 
         } catch (error) {
           // console.log("Received non-JSON message:", value);
@@ -224,12 +218,7 @@ const connect = async (port) => {
   }
 };
 
-
-
 // const timeThreshold = 1550;
-
-
-
 
 //store all the readers:
 const readers = [
@@ -260,6 +249,7 @@ const readers = [
   },
 ];
 
+//Hardcoding every item UID card and sticker:
 const items = [
   {
     UID: " 23 bd 8a 18",

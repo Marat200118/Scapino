@@ -1,6 +1,8 @@
 import { inBetween } from "./in-between";
+import { initReproductiveRightsAnimation } from "./gsap";
 
 let prevSection = null;
+let nRefreshes = 0;
 
 const updateSectionDisplay = (currentSection) => {
   if (currentSection === prevSection) {
@@ -19,6 +21,16 @@ const updateSectionDisplay = (currentSection) => {
   document.querySelector(".reproductive-rights").style.display = "none";
   document.querySelectorAll("video").forEach((video) => {
     video.pause();
+  });
+  document.querySelectorAll("canvas").forEach((canvas) => {
+    canvas.style.display = "none"
+  });
+
+  document.querySelectorAll("video").forEach((video) => {
+    video.style.display = "none";
+  });
+  document.querySelectorAll("app>video").forEach((video) => {
+    video.style.display = "none";
   });
 
   switch (currentSection) {
@@ -44,17 +56,21 @@ const updateSectionDisplay = (currentSection) => {
       break;
     case "misogyny":
       document.querySelector(".misogyny").style.display = "block";
+      document.querySelector(".misogyny video").style.display = "block";
       document.querySelector(".misogyny video").play();
       break;
     case "life":
       document.querySelector(".life").style.display = "block";
+      document.querySelector(".life video").style.display = "block";
       document.querySelector(".life video").play();
       break;
     case "societal-norms":
       document.querySelector(".norms").style.display = "block";
+      document.querySelector("canvas").style.display = "block";
       break;
     case "reproductive-rights":
       document.querySelector(".reproductive-rights").style.display = "block";
+      initReproductiveRightsAnimation(); //tryin to call the function here to reset the GSAP animation
       break;
     default:
       document.querySelector(".introduction").style.display = "block";

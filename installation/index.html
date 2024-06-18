@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>RFID Reader Status</title>
-  <link rel="stylesheet" href="/src/styles.css" />
+  <link rel="stylesheet" href="/src/styles.css">
 </head>
 
 <body>
@@ -52,7 +52,52 @@
     </section>
 
     <section class="in-between-universal">
-      <h1>I am universal between section!!!</h1>
+      <div class="logo-right">
+        <img src="./src/assets/scapino-logo.png" alt="Scapino logo" class="right-logo">
+      </div>
+      <h1>You have picked up a Topic</h1>
+
+      <div class="flex-container-inbetween universal">
+        <p class="between-text-left universal">Hold it <span>against your phone</span> to explore the topic</p>
+        <p class="or universal">OR</p>
+        <p class="between-text-right universal">Put it into the <span>highlight</span></p>
+      </div>
+
+      <div class="object-container">
+        <div class="first-row">
+          <div class="object">
+            <img src="./src/assets/scans/test.png" alt="Reproductive Rights" class="universal-object-image test">
+            <div class="universal-object-text">
+              <p class="universal-heading">Pregnancy test</p>
+              <p class="universal-description">Topic: reproductive rights</p>
+            </div>
+          </div>
+          <div class="object reverse">
+            <img src="./src/assets/scans/comb.png" alt="Misogyny" class="universal-object-image comb">
+            <div class="universal-object-text">
+              <p class="universal-heading">Barbie comb</p>
+              <p class="universal-description">Topic: misogyny</p>
+            </div>
+          </div>
+        </div>
+        <hr class="row-divider">
+        <div class="second-row">
+          <div class="object">
+            <img src="./src/assets/scans/camera.png" alt="Societal norms" class="universal-object-image camera">
+            <div class="universal-object-text">
+              <p class="universal-heading">Surveillance camera</p>
+              <p class="universal-description">Topic: societal norms</p>
+            </div>
+          </div>
+          <div class="object reverse">
+            <img src="./src/assets/scans/head.png" alt="Meaning of life" class="universal-object-image cast">
+            <div class="universal-object-text">
+              <p class="universal-heading">Plaster cast</p>
+              <p class="universal-description">Topic: meaning of life</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="life">
@@ -75,34 +120,37 @@
       </div>
       <div class="flex-container">
         <div class="norms-text">
+          <div class="background-image-norms">
+            <img src="./src/assets/societal-norms.png" alt="Societal norms" class="background-image">
+          </div>
           <h2>Societal norms</h2>
-          <p class="norms-text-paragraph">When creating a work in <span>China,</span> it is important to promote <span>positive energy.</span> The so-called “normal” <span>emotions</span> are
-            <span>uppressed,</span> suffocating, distorted, or weird. Perhaps for <span>Western culture</span> it is important to explore human
+          <p class="norms-text-paragraph">When creating a work in <span>China,</span> it is important to promote
+            <span>positive energy.</span> The so-called “normal” <span>emotions</span> are
+            <span>suppressed,</span> suffocating, <span>distorted,</span> or weird. Perhaps for <span>Western
+              culture</span> it is
+            important to explore human
             nature, to
             directly face things.
           </p>
         </div>
-        <!-- <div class="video-filter">
-          <video id="filter" playsinline autoplay loop>
-            
-            Your browser does not support the video tag.
-          </video>
-        </div> -->
+        <div class="video-filter"></div>
       </div>
     </section>
 
     <section class="reproductive-rights">
       <div class="background-image">
-        <img src="/cards/back.avif" alt="Reproductive Rights" class="background-image">
+        <img src="./src/assets/cards/back.avif" alt="Reproductive Rights" class="background-image">
       </div>
       <div class="header">
         <img src="./src/assets/scapino-logo.png" alt="Scapino logo" class="repr-rights-logo">
       </div>
       <div class="text">
-        <h2>One child policy</h2>
-        <p class="description">My birth was <span>unpredicted.</span> China had very strict <span>one child policy</span> in the <span>1980s.</span> I am 4th kid in my family. It
+        <h2>Reproductive Rights</h2>
+        <p class="description">My birth was <span>unpredicted.</span> China had very strict <span>one child
+            policy</span> in the <span>1980s.</span> I am 4th kid in my family. It
           was a
-          surprise that my parents gave birth to me. I want to <span>explore</span> this topic in <span>my Origin piece in Scapino ballet.</span>
+          surprise that my parents gave birth to me. I want to <span>explore</span> this topic in <span>my Origin piece
+            in Scapino ballet.</span>
         </p>
       </div>
       <div class="images">
@@ -119,6 +167,11 @@
       </div>
     </section>
   </div>
+
+  <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+  <script type="module" src="/src/p5/p5.js"></script>
+  <script type="module" src="/src/p5/addons/p5.sound.js"></script>
+  <script src="/src/sketch.js"></script>
   <script type="module" src="/src/renderer.js"></script>
   <script type="module" src="/src/gsap.js"></script>
   <script type="module" src="/src/in-between.js"></script>
