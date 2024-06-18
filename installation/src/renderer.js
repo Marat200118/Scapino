@@ -144,9 +144,6 @@ const connect = async (port) => {
         try {
           const json = JSON.parse(value);
 
-
-
-
           if (json.reader === "Reader 2") {
             if (json.UID !== "No card present") {
               console.log("Received:", json.UID);
@@ -164,7 +161,6 @@ const connect = async (port) => {
             const currentReader = readers.find(
               (reader) => reader.name === json.reader
             );
-
 
             if (json.UID !== "No card present") {
               currentReader.lastUIDPresent = json.UID;
@@ -222,12 +218,7 @@ const connect = async (port) => {
   }
 };
 
-
-
 // const timeThreshold = 1550;
-
-
-
 
 //store all the readers:
 const readers = [

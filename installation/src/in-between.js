@@ -52,17 +52,6 @@ const inBetween = (string) => {
     staticBackgroundContainer.appendChild(staticBgImg);
   });
 
-  // const backgroundRotations = [
-  //   { rotate: 0, scale: 1 },
-  //   { rotate: 0, scale: 1 },
-  //   { rotate: 0, scale: 1 },
-  //   { rotate: 0, scale: 1.5 },
-  // ];
-
-  // backgroundRotations.forEach((rotation, index) => {
-  //   staticBackground.style.transform = `rotate(${rotation.rotate}deg) scale(${rotation.scale})`;
-  // });
-
   animateBackgroundImages(object.backgroundImage);
 };
 
@@ -147,7 +136,6 @@ const animateBackgroundImages = (src) => {
     } else {
       img.src = src;
     }
-
 
     container.appendChild(img);
 
