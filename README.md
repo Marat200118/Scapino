@@ -28,6 +28,7 @@ How might we **inform** art students from **18 to 25 years old** who are **alrea
 
 
 ## Code Documentation
+![Frame 14705](https://github.com/Marat200118/Scapino/assets/37581663/f9fb3784-6f77-4616-9660-8c05afd49d4f)
 
 ### Arduino folder
 
@@ -436,4 +437,97 @@ function draw() {
 
 
   posteriseShader.setUniform("time", millis() / 1000.0);
+}
+```
 
+### Website folder
+
+On our website we’re using three.js to render models of our objects to convey the feeling from our installation. We use ready 3d models, and then we render each item accordingly to its own page, which we check via url, to keep code sustainable:
+
+```js
+const renderModel = (modelName, scale, y) => {
+  const width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+  scale = width > 768 ? scale * 1.5 : scale
+  gltfLoader.load(
+    `../models/${modelName}.glb`,
+    (gltf) => {
+      model = gltf.scene
+      model.position.x = 0
+      model.position.y = y
+      model.position.z = -0.5
+      model.scale.set(scale, scale, scale)
+      scene.add(model)
+    }
+  )
+}
+
+//checking if url contains a model topic and render the model accordingly:
+const url = window.location.href;
+
+switch (true) {
+  case url.includes('misogyny'):
+    renderModel('comb', 9, 0)
+    break;
+  case url.includes('life'):
+    renderModel('plaster', 0.005, -0.5)
+    break;
+  case url.includes('societal'):
+    renderModel('camera', 3, -0.5)
+    break;
+  case url.includes('reproductive'):
+    renderModel('test', 12, 0)
+    break;
+  default:
+    renderModel('test', 12, 0)
+}
+```
+
+
+To work efficiently with our designer, we used graphic user interface for debugging:
+
+```js
+/**
+ * Lihjts
+ */
+
+const ambientLight = new THREE.AmbientLight(0xffffff, 2)
+scene.add(ambientLight)
+
+const pointLightColor = {
+  color: 0xffffff
+}
+
+const pointLight = new THREE.PointLight(0xffffff, 90)
+pointLight.position.x = 2
+pointLight.position.y = 3
+pointLight.position.z = 4
+
+scene.add(pointLight)
+
+//add lights to gui:
+// const lightsFolder = gui.addFolder('Lights')
+// lightsFolder.add(ambientLight, 'intensity').min(0).max(10).step(0.01).name('Ambient light intensity')
+// lightsFolder.add(pointLight, 'intensity').min(0).max(100).step(0.01).name('Point light intensity')
+
+//add color of point light to gui:
+
+// lightsFolder.addColor(pointLightColor, 'color').onChange(() => {
+//   pointLight.color.set(pointLightColor.color)
+// }
+// )
+
+/**
+ * Camera
+ */
+// Base camera
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+camera.position.x = 0
+camera.position.y = 0
+camera.position.z = 2
+scene.add(camera)
+
+// Controls
+// const controls = new OrbitControls(camera, canvas)
+// controls.enableDamping = true
+
+```
