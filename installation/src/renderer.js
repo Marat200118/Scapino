@@ -25,15 +25,6 @@ let isHighlightActive = false; // global variable to check if highlight is activ
 const init = async () => {
   displaySupportedState();
   updateSectionDisplay("start");
-  // updateSectionDisplay("in-between-societal-norms"); 
-  // updateSectionDisplay("in-between-misogyny");
-  // updateSectionDisplay("in-between-universal");
-  // updateSectionDisplay("in-between-life");
-  // updateSectionDisplay("in-between-reproductive-rights");
-  // updateSectionDisplay("misogyny");
-  // updateSectionDisplay("life");
-  // updateSectionDisplay("societal-norms");
-  // updateSectionDisplay("reproductive-rights");
   if (!hasWebSerial) return;
   displayConnectionState();
 
@@ -267,6 +258,7 @@ const readers = [
   },
 ];
 
+//Hardcoding every item UID card and sticker:
 const items = [
   {
     UID: " 23 bd 8a 18",

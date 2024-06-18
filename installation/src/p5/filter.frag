@@ -61,12 +61,10 @@ void main() {
   
   // Invert the grayscale color
   float invertedGray = 1.0 - contrastedGray;
-  
-  // Determine if this pixel should draw the word "smile"
   vec3 color = vec3(invertedGray);
   
   // Slow down the update rate of shapes
-  float slowTime = floor(time*3.0); // This ensures the shapes update every second
+  float slowTime = floor(time*3.0); 
   
   // Draw 10 random polygons each second
   for (int i = 0; i < 10; i++) {
